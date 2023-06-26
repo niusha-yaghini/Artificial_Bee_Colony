@@ -1,12 +1,12 @@
 import numpy as np
-from Bee_Colony import Bee
+import Bees
 import random
 import copy
 
 class ABC_algorithm():
 # artificial bee colony algorithm 
 
-    def __init__(self, npop, nK, nI, Capacity, Profits, Weights):
+    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration):
         self.total_population_num = npop
         self.employed_bees_num = npop/2
         self.blocks = nK
@@ -14,8 +14,9 @@ class ABC_algorithm():
         self.capacity = Capacity
         self.profits = Profits
         self.weights = Weights
+        self.RW_iteration = RW_iteration # the amount of iterations in rolette wheel
           
-    def _employed_bees(self):
+    def employed_bees(self):
         # making initial random answers (equal to amount of employed bees number)
         # this function returns the initial population
         
@@ -29,54 +30,75 @@ class ABC_algorithm():
         # making each random solution -> employed bees
         
         capacity_flag = True
-        row = np.zeros(self.items)
+        row = Bees.Bee
+        # row = np.zeros(self.items)
+        new_row = copy.deepcopy(row)
         while(capacity_flag):
             x = random.randint(0, self.items-1)
-            self._validality_check(capacity_flag, row, x)
+            new_row. [x] = 1
+            capacity_flag = self._validality_check(new_row)
             if(capacity_flag):
                 row[x] = 1
                 
         return row
                 
-    def _validality_check(self, capacity_flag, row, x):
+    def _validality_check(self, row):
         # checking validality of the answers that has been made (capacity)
         
         for j in range(self.blocks):
             c = self.capacity[j]
             for i in range(self.items):
-                if (row[i]==1 or i == x):
+                if (row[i]==1):
                     c += self.weights[j][i]
             if(c>self.capacity[j]):
-                capacity_flag = False
-                return
+                return False
+        return True
                 
-    def employed_improvement(self, population):
-        # doing the cross_over and mutation for each answer that employed bees have made
+    def onlooker_bees(self, population):
+        # by rolette wheel precedure we do k times cross_over and mutation
+        # on solution that employed bees have made
+        p = self._roulette_wheel(population, self.RW_iteration)
+        self._cross_over(population, p)
+        self._mutation(p)
         
-        self.cross_over(population)
-        self.mutation(population)
-        
-    def cross_over(self, population):
+    def _roulette_wheel(population, iteration):
+        for i in range(iteration):
+            print(1)
+            
+    
+    def _cross_over(self, population, p):
         # for each answer that employed bees have made, we select a radom neighbor
         # for each answer we also select a random position, and it replaced with its neighbors pos
+        # if the changed answer be better than the previous one and it be valid, it will change
 
-        for p in population:
-            new_p = copy.deepcopy(p)
-            random_pos = random.randint(0, self.items)
-            random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=p])
-            new_p[random_pos] = random_neighbor[random_pos]
-            if()
-             
-    def mutation(self, population):
+        new_p = copy.deepcopy(p)
+        random_pos = random.randint(0, self.items)
+        random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=p])
+        new_p[random_pos] = random_neighbor[random_pos]
+        if(self._validality_check(new_p) and self._imporovement_check(p, new_p)):
+            p = new_p
+                             
+    def _mutation(self, p):
         # for each answer that employed bees have made, we select a random position and we change it with 0 or 1 (randomly)
+        # only if the changed answer be better than the previous one and it be valid, it will change
 
-        for p in population:
-            random_pos = random.randint(0, self.items)
-            random_replace = random.randint(0, 1)
-            p[random_pos] = random_replace
+        new_p = copy.deepcopy(p)
+        random_pos = random.randint(0, self.items)
+        random_replace = random.randint(0, 1)
+        new_p[random_pos] = random_replace
+        if(self._validality_check(new_p) and self._imporovement_check(p, new_p)):
+            p = new_p
 
-    def imporovement_check(old_solution, new_solution):
-        
+    def _imporovement_check(self, old_solution, new_solution):
+        old_fitness = 0
+        new_fitness = 0
+        for j in range(self.blocks):
+            for i in range(self.items):
+                if(old_solution[i]==1):
+                    old_fitness += self.weights[j][i]
+                if(new_solution[i]==1):
+                    new_fitness += self.weights[j][i]
+        return True if new_fitness>old_fitness else False
 
 
     # def employee_search(self, employedBees):
