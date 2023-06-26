@@ -1,4 +1,3 @@
-
 def Reading(file_name):
     data = open(f"{file_name}", "r")
     nK = int(data.readline().split(":")[1])
@@ -12,4 +11,4 @@ def Reading(file_name):
     for i in range(nK):
         Weights.append([int(x) for x in data.readline().split(",")])
         
-    return Capacity, Profits, Weights
+    return nK, nI, Capacity, Profits, Weights

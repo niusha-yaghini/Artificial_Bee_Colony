@@ -1,5 +1,5 @@
-nK: 2
-nI: 4
+number of blocks: 2
+number of items: 4
 
 Capacity: 
 320, 320

@@ -100,59 +100,20 @@ class ABC_algorithm():
             bee = new_bee
 
     def _imporovement_check(self, current_bee, new_bee):
+        # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
+        
         Bees.Bee._calculating_fitness(current_bee, self.blocks, self.items, self.weights)
         Bees.Bee._calculating_fitness(new_bee, self.blocks, self.items, self.weights)
         return True if new_bee.fitness>current_bee.fitness else False
-
-
-
-
-#     def onlooker_search(self, employedBees):
-#         for i in range(int(len(employedBees) / 2)):
-#             currentBee = rouletteWheel(employedBees)
-#             self.local_update(currentBee, employedBees)
-#         return employedBees
-
-#     def scoutBee(self, employedBees):
-#         for i in range(len(employedBees)):
-#             currentBee = employedBees[i]
-#             if currentBee.tries > self.limit:
-#                 currentBee = self.global_update()
-#         return employedBees
-
-#     def check_bound(self, pos):
-#         newPos = pos.copy()
-#         for ind in range(len(pos)):
-#             newPos[ind] = min(self.upper_bound[ind], newPos[ind])
-#             newPos[ind] = max(self.lower_bound[ind], newPos[ind])
-
-#         return newPos
-
-
-# def rouletteWheel(bees, greaterApproval=True):
-#     import numpy as np
-#     # in greaterApproval=True greater values has greater chance
-#     if greaterApproval:
-#         sumVals = sum(bee.fitness for bee in bees)
-#         p = {bee: bee.fitness / sumVals for bee in bees}
-#     else:
-#         sumVals = sum(1 / (bee.fitness + 1e-5) for bee in bees)
-#         p = {bee: (1 / (bee.fitness + 1e-5)) / sumVals for bee in bees}
-
-#     sortedIndex = sorted(p, key=p.get, reverse=True)
-
-#     r = np.random.rand()
-#     chosenIndex = 0
-#     chosen = sortedIndex[chosenIndex]
-#     cumP = p[chosen]
-#     while cumP < r:
-#         chosenIndex += 1
-#         chosen = sortedIndex[chosenIndex]
-#         cumP += p[chosen]
-
-#     return chosen
-
-
-# # get bee with best fitness
-#     """def BestIter(self,fitness):
-#         BestBee = max(self,fitness)"""
+    
+    def finding_best_bee(self, population):
+        # finding the best solution
+        
+        best_fitness = 0
+        best_bee = None
+        for bee in population:
+            Bees.Bee._calculating_fitness(bee, self.blocks, self.items, self.weights)
+            if(bee.fitness>best_fitness):
+                best_fitness = bee.fitness
+                best_bee = bee
+        return best_bee
