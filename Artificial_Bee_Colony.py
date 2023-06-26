@@ -30,15 +30,14 @@ class ABC_algorithm():
         # making each random solution -> employed bees
         
         capacity_flag = True
-        row = Bees.Bee
-        # row = np.zeros(self.items)
+        row = Bees.Bee(self.items)
         new_row = copy.deepcopy(row)
         while(capacity_flag):
             x = random.randint(0, self.items-1)
-            new_row. [x] = 1
+            new_row.data[x] = 1
             capacity_flag = self._validality_check(new_row)
             if(capacity_flag):
-                row[x] = 1
+                row.data[x] = 1
                 
         return row
                 
@@ -48,7 +47,7 @@ class ABC_algorithm():
         for j in range(self.blocks):
             c = self.capacity[j]
             for i in range(self.items):
-                if (row[i]==1):
+                if (row.data[i]==1):
                     c += self.weights[j][i]
             if(c>self.capacity[j]):
                 return False
@@ -57,127 +56,103 @@ class ABC_algorithm():
     def onlooker_bees(self, population):
         # by rolette wheel precedure we do k times cross_over and mutation
         # on solution that employed bees have made
-        p = self._roulette_wheel(population, self.RW_iteration)
-        self._cross_over(population, p)
-        self._mutation(p)
         
-    def _roulette_wheel(population, iteration):
-        for i in range(iteration):
-            print(1)
-            
-    
-    def _cross_over(self, population, p):
+        for i in range(self.RW_iteration):
+            bee = self._roulette_wheel(population)
+            self._cross_over(population, bee)
+            self._mutation(bee)
+        
+    def _roulette_wheel(self, population):
+        # more fitness = more probbility
+        
+        total_fitness = 0
+        for bee in population:
+            Bees.Bee._calculating_fitness(bee, self.blocks, self.items, self.weights)
+            total_fitness += bee.fitness
+        pick = random.uniform(0, total_fitness)
+        current = 0
+        for bee in population:
+            current += bee.fitness
+            if current > pick:
+                return bee         
+                
+    def _cross_over(self, population, bee):
         # for each answer that employed bees have made, we select a radom neighbor
         # for each answer we also select a random position, and it replaced with its neighbors pos
         # if the changed answer be better than the previous one and it be valid, it will change
 
-        new_p = copy.deepcopy(p)
+        new_bee = copy.deepcopy(bee)
         random_pos = random.randint(0, self.items)
-        random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=p])
-        new_p[random_pos] = random_neighbor[random_pos]
-        if(self._validality_check(new_p) and self._imporovement_check(p, new_p)):
-            p = new_p
+        random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=bee])
+        new_bee.data[random_pos] = random_neighbor.data[random_pos]
+        if(self._validality_check(new_bee) and self._imporovement_check(bee, new_bee)):
+            bee.data = new_bee.data
                              
-    def _mutation(self, p):
+    def _mutation(self, bee):
         # for each answer that employed bees have made, we select a random position and we change it with 0 or 1 (randomly)
         # only if the changed answer be better than the previous one and it be valid, it will change
 
-        new_p = copy.deepcopy(p)
+        new_bee = copy.deepcopy(bee)
         random_pos = random.randint(0, self.items)
         random_replace = random.randint(0, 1)
-        new_p[random_pos] = random_replace
-        if(self._validality_check(new_p) and self._imporovement_check(p, new_p)):
-            p = new_p
+        new_bee.data[random_pos] = random_replace
+        if(self._validality_check(new_bee) and self._imporovement_check(bee, new_bee)):
+            bee = new_bee
 
-    def _imporovement_check(self, old_solution, new_solution):
-        old_fitness = 0
-        new_fitness = 0
-        for j in range(self.blocks):
-            for i in range(self.items):
-                if(old_solution[i]==1):
-                    old_fitness += self.weights[j][i]
-                if(new_solution[i]==1):
-                    new_fitness += self.weights[j][i]
-        return True if new_fitness>old_fitness else False
+    def _imporovement_check(self, current_bee, new_bee):
+        Bees.Bee._calculating_fitness(current_bee, self.blocks, self.items, self.weights)
+        Bees.Bee._calculating_fitness(new_bee, self.blocks, self.items, self.weights)
+        return True if new_bee.fitness>current_bee.fitness else False
 
 
-    # def employee_search(self, employedBees):
-    #     for i in range(len(employedBees)):
-    #         currentBee = employedBees[i]
-    #         self.local_update(currentBee, employedBees)
-    #     return employedBees
-
-    # def local_update(self, currentBee, employedBees):
-    #     import numpy as np
-    #     from Bee_Colony import Bee
-    #     neighbor = np.random.choice(employedBees)
-    #     randomPos = np.random.randint(0, self.ndim)
-    #     newPosCurrent = currentBee.pos[randomPos] + np.random.uniform(
-    #         -self.search_radius, self.search_radius) * (currentBee.pos[randomPos] - neighbor.pos[randomPos])
-
-    #     newPos = currentBee.pos.copy()
-    #     newPos[randomPos] = newPosCurrent
-    #     newPos = self.check_bound(newPos)
-    #     oldFitness = currentBee.fitness
-    #     newBee = Bee(newPos)
-    #     newFitness = newBee.fitness
-    #     newObj = newBee.obj
-
-    #     if oldFitness is None or newFitness > oldFitness:
-    #         currentBee.pos = newPos.copy()
-    #         currentBee.fitness = newFitness
-    #         currentBee.obj = newObj
-    #         currentBee.intpos=newBee.intpos.copy()
-    #         currentBee.tries = 0
-    #     else:
-    #         currentBee.tries += 1
-
-    def onlooker_search(self, employedBees):
-        for i in range(int(len(employedBees) / 2)):
-            currentBee = rouletteWheel(employedBees)
-            self.local_update(currentBee, employedBees)
-        return employedBees
-
-    def scoutBee(self, employedBees):
-        for i in range(len(employedBees)):
-            currentBee = employedBees[i]
-            if currentBee.tries > self.limit:
-                currentBee = self.global_update()
-        return employedBees
-
-    def check_bound(self, pos):
-        newPos = pos.copy()
-        for ind in range(len(pos)):
-            newPos[ind] = min(self.upper_bound[ind], newPos[ind])
-            newPos[ind] = max(self.lower_bound[ind], newPos[ind])
-
-        return newPos
 
 
-def rouletteWheel(bees, greaterApproval=True):
-    import numpy as np
-    # in greaterApproval=True greater values has greater chance
-    if greaterApproval:
-        sumVals = sum(bee.fitness for bee in bees)
-        p = {bee: bee.fitness / sumVals for bee in bees}
-    else:
-        sumVals = sum(1 / (bee.fitness + 1e-5) for bee in bees)
-        p = {bee: (1 / (bee.fitness + 1e-5)) / sumVals for bee in bees}
+#     def onlooker_search(self, employedBees):
+#         for i in range(int(len(employedBees) / 2)):
+#             currentBee = rouletteWheel(employedBees)
+#             self.local_update(currentBee, employedBees)
+#         return employedBees
 
-    sortedIndex = sorted(p, key=p.get, reverse=True)
+#     def scoutBee(self, employedBees):
+#         for i in range(len(employedBees)):
+#             currentBee = employedBees[i]
+#             if currentBee.tries > self.limit:
+#                 currentBee = self.global_update()
+#         return employedBees
 
-    r = np.random.rand()
-    chosenIndex = 0
-    chosen = sortedIndex[chosenIndex]
-    cumP = p[chosen]
-    while cumP < r:
-        chosenIndex += 1
-        chosen = sortedIndex[chosenIndex]
-        cumP += p[chosen]
+#     def check_bound(self, pos):
+#         newPos = pos.copy()
+#         for ind in range(len(pos)):
+#             newPos[ind] = min(self.upper_bound[ind], newPos[ind])
+#             newPos[ind] = max(self.lower_bound[ind], newPos[ind])
 
-    return chosen
+#         return newPos
 
 
-# get bee with best fitness
-    """def BestIter(self,fitness):
-        BestBee = max(self,fitness)"""
+# def rouletteWheel(bees, greaterApproval=True):
+#     import numpy as np
+#     # in greaterApproval=True greater values has greater chance
+#     if greaterApproval:
+#         sumVals = sum(bee.fitness for bee in bees)
+#         p = {bee: bee.fitness / sumVals for bee in bees}
+#     else:
+#         sumVals = sum(1 / (bee.fitness + 1e-5) for bee in bees)
+#         p = {bee: (1 / (bee.fitness + 1e-5)) / sumVals for bee in bees}
+
+#     sortedIndex = sorted(p, key=p.get, reverse=True)
+
+#     r = np.random.rand()
+#     chosenIndex = 0
+#     chosen = sortedIndex[chosenIndex]
+#     cumP = p[chosen]
+#     while cumP < r:
+#         chosenIndex += 1
+#         chosen = sortedIndex[chosenIndex]
+#         cumP += p[chosen]
+
+#     return chosen
+
+
+# # get bee with best fitness
+#     """def BestIter(self,fitness):
+#         BestBee = max(self,fitness)"""

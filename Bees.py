@@ -2,8 +2,8 @@ import numpy as np
 
 class Bee:
     
-    def __init__(self):
-        self.data = np.zeros(self.items)
+    def __init__(self, items):
+        self.data = np.zeros(items)
         self.fitness = None
 
         # self.pos = pos
@@ -14,8 +14,13 @@ class Bee:
         # self.fitness = self.calculate_fitness(self.obj)
         # self.tries = 0
 
-    def _calculating_fitness(self):
-        print(1)
+    def _calculating_fitness(self, blocks, items, weights):
+        fitness = 0
+        for j in range(blocks):
+            for i in range(items):
+                if(self.data[i]==1):
+                    fitness += weights[j][i]
+        self.fitness = fitness
 
     # def Reading_Data(self, pos):
     #     capacity = [320, 320]
