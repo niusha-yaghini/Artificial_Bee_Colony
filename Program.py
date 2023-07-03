@@ -25,11 +25,11 @@ if __name__ == '__main__':
     iteration_of_ABC = 10   # number of total iteration of algorithm
     
     # file name of the datas
-    data_file_name = ".\\mknap1-Question\\02.txt"
+    data_file_name = ".\\mknap1-Question\\06.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer\\02.txt"
-    photo_name = "02"
+    result_file_name = ".\\mknap1-Answer\\06.txt"
+    photo_name = "06"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -96,6 +96,12 @@ if __name__ == '__main__':
     elapsed_time = et - st
     print('Execution time of all:', elapsed_time, 'seconds')
     result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
+
+    result.write("------------------------\n")
+    result.write("COMPARE ANSWER \n \n")
+    result.write("real answer = \n")
+    result.write(f"my answer = {best_fitness_so_far}\n")
+    result.write("loss = \n \n")
 
     result.write("------------------------\n")
     result.write("PARAMETERS\n \n")

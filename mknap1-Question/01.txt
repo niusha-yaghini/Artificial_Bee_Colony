@@ -2,7 +2,7 @@ number of blocks: 10
 number of items: 6
 
 Capacity: 
-80 96 20 36 44 48 10 18 22 24
+80, 96 20 36 44 48 10 18 22 24
 
 Profits: 
 100 600 1200 2400 500 2000

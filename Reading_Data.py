@@ -1,7 +1,7 @@
 def Reading(file_name):
     data = open(f"{file_name}", "r")
-    nK = float(data.readline().split(":")[1])
-    nI = float(data.readline().split(":")[1])
+    nK = int(data.readline().split(":")[1])
+    nI = int(data.readline().split(":")[1])
     data.readlines(2)
     Capacity = [float(x) for x in data.readline().split(" ")]
     data.readlines(2)
