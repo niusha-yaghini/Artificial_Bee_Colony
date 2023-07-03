@@ -1,0 +1,33 @@
+Artificial Bee Algorithm 
+ 
+iteration number 0:
+best bee => data: [1. 0. 0. 1.], fitness: 640
+best fitness so far: 640
+Execution time of iteration: 0.0069425106048583984 seconds
+ 
+iteration number 1:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 640
+Execution time of iteration: 0.004992008209228516 seconds
+ 
+iteration number 2:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 640
+Execution time of iteration: 0.0032651424407958984 seconds
+ 
+iteration number 3:
+best bee => data: [0. 0. 0. 1.], fitness: 390
+best fitness so far: 640
+Execution time of iteration: 0.004186391830444336 seconds
+ 
+iteration number 4:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 640
+Execution time of iteration: 0.005190134048461914 seconds
+ 
+---------------------
+RESULT
+ 
+the best fitness of all: 640 
+the average fitness of all: 566.0 
+Execution time of all: 0.03281760215759277 seconds

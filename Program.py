@@ -1,68 +1,98 @@
-import Artificial_Bee_Colony as ABC
+import Artificial_Bee_Colony
 import numpy as np
 import Reading_Data
+import time
+
+
+def Bee_Colony_Algorithm():
+    # ABC = ABC.ABC_algorithm(npop, nK, nI, Capacity, Weights, ndim, limit, lower_bound, upper_bound, ncycle, search_radius=1)
+    ABC = Artificial_Bee_Colony.ABC_algorithm(population_num, nK, nI, Capacity, Profits, Weights, k)
+    population = ABC.employed_bees()
+    ABC.onlooker_bees(population)
+    best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
+    
+    return best_bee_of_iteration, best_fitness_of_iteration
+
 
 if __name__ == '__main__':
     
     population_num = 6   # number of total bees => npop/2 = amount of first population
+                         # this must be an even number 
     k = 3   # number of iterations in roulette wheel
-    iteration = 2   # number of total iteration of algorithm
+    iteration_of_ABC = 5   # number of total iteration of algorithm
     
     
-    # getting the data
-    file_name = "Question.txt"
+    # file name of the datas
+    data_file_name = "Question.txt"
+    
+    # file name for save results
+    result_file_name = "results.txt"
 
     # nK = number of knapstacks
     # nI = number of items
-    nK, nI, Capacity, Profits, Weights = Reading_Data.Reading(file_name)
+    nK, nI, Capacity, Profits, Weights = Reading_Data.Reading(data_file_name)
     
-    
-    
-    # ABC = ABC.ABC_algorithm(npop, nK, nI, Capacity, Weights, ndim, limit, lower_bound, upper_bound, ncycle, search_radius=1)
-    ABC = ABC.ABC_algorithm(population_num, nK, nI, Capacity, Profits, Weights, k)
-    
+        
     
     # getting result by bees :)
+    st = time.time() # get the start time of all
+    
+    result = open(f'{result_file_name}', 'a')
+    result.write(f"Artificial Bee Algorithm \n \n")        
+    result.close()
+
+
+    # 1) writing the results in a text
+    # 2) getting the time of algorithm in each iteration
+    
     best_bees = []
-    for i in range(iteration):
-        population = ABC.employed_bees()
-        ABC.onlooker_bees(population)
-        best_bee_of_iteration = ABC.finding_best_bee(population)
+    best_fitnesses = []
+    fitness_sum = 0
+    for i in range(iteration_of_ABC):
+        iteration_st = time.time()  # start time of iteration
+        result = open(f'{result_file_name}', 'a')    
+        
+        print(f"iteration number {i}:")
+        best_bee_of_iteration, best_fitness_of_iteration = Bee_Colony_Algorithm()
+        fitness_sum += best_fitness_of_iteration
+        print(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}")
         best_bees.append(best_bee_of_iteration)
-        best_fitness_so_far = max(best_bees)
-        print(f"number of iteration: {iteration}")
-        print(f"best fitness of iteration: {best_bee_of_iteration}")        
-        print(f"best fitness so far: {best_fitness_so_far}\n")        
+        best_fitnesses.append(best_fitness_of_iteration)
+        best_fitness_so_far = max(best_fitnesses)
+        result.write(f"iteration number {i}:\n")
+        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
+        result.write(f"best fitness so far: {best_fitness_so_far}\n")
+        iteration_et = time.time()  # end time of iteration
+        iteration_elapsed_time = iteration_et - iteration_st
+        print(f"Execution time of iteration: {iteration_elapsed_time} seconds\n")
+        result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
+        
+        result.close()
+
+    result = open(f'{result_file_name}', 'a')
+    result.write("---------------------\n")
+    result.write("RESULT\n \n")
+        
+    best_fitness_of_all = max(best_fitnesses)
+    fitness_avg = fitness_sum/iteration_of_ABC
+    result.write(f"the best fitness of all: {best_fitness_of_all} \n")
+    result.write(f"the average fitness of all: {fitness_avg} \n")
 
 
-    # scouts, time showing, diagram showing, saving results in a text
+    print("------------------------------")
+    print("RESULT")
+    print(f"the best fitness of all: {best_fitness_of_all} \n")
+    print(f"the average fitness of all: {fitness_avg} \n")
 
 
+    # end time of all
+    et = time.time()
 
-    # ---------------------------------------------------------------------
+    elapsed_time = et - st
+    print('Execution time of all:', elapsed_time, 'seconds')
+    result.write(f'Execution time of all: {elapsed_time} seconds')
 
-    # pop = ABC.Initialize()
+    result.close()
+     
 
-    # Continue = True
-    # t = 1
-    # while Continue:
-    #     pop = ABC.employee_search(pop)
-    #     pop = ABC.onlooker_search(pop)
-    #     pop = ABC.scoutBee(pop)
-
-    #     for bee in pop:
-    #         if bee.fitness > bestFitness:
-    #             bestFitness = bee.fitness
-    #             bestintpos=bee.intpos.copy()
-    #             #bestPosition = [(i, j) for i in range(nK) for j in range(nI) if bee.intpos[i + (j - 1) * nK] > 0]
-
-    #             #profits = [92, 57, 49, 68, 60, 43, 67, 84, 87, 72]
-    #             # obj2 =sum(np.array(bee.intpos) * np.array(profits))
-    #             bestobj = bee.obj
-    #     t += 1
-
-    #     # if t > ncycle or noimprove > maxNoImprove or time > maxTime:
-    #     if t > ncycle:
-    #         Continue = False
-
-    #     print("Iteration: %s    Fitness:%.3f     obj:%.3f      position:%s" % (t, bestFitness, bestobj, bestintpos[:4]))
+    # scouts, diagram showing

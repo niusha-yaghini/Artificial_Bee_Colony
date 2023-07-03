@@ -6,6 +6,7 @@ class Bee:
     def __init__(self, items):
         self.data = np.zeros(items)
         self.fitness = None
+        self.improvement_try = 0
 
     def _calculating_fitness(self, blocks, items, weights):
         # fitness is amount of capacity that the bee can take (the capacity that the answer is occupying)
