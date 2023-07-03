@@ -20,8 +20,8 @@ if __name__ == '__main__':
     
     population_num = 200   # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    k = 20   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 8
+    k = 50   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 10
     iteration_of_ABC = 30   # number of total iteration of algorithm
     
     # file name of the datas
@@ -54,11 +54,11 @@ if __name__ == '__main__':
         iteration_st = time.time()  # start time of iteration
         result = open(f'{result_file_name}', 'a')    
         
-        print(f"iteration number {i}:")
+        print(f"iteration number {i}")
         best_bee_of_iteration, best_fitness_of_iteration = Bee_Colony_Algorithm()
         fitness_sum += best_fitness_of_iteration
 
-        print(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}")
+        # print(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}")
         best_bees_each_iter.append(copy.deepcopy(best_bee_of_iteration))
         best_fitnesses_each_iter.append(copy.deepcopy(best_fitness_of_iteration))
         best_fitness_so_far = max(best_fitnesses_each_iter)
@@ -70,7 +70,8 @@ if __name__ == '__main__':
 
         iteration_et = time.time()  # end time of iteration
         iteration_elapsed_time = iteration_et - iteration_st
-        print(f"Execution time of iteration: {iteration_elapsed_time} seconds\n")
+        # print(f"Execution time of iteration: {iteration_elapsed_time} seconds\n")
+        print(time.time())
         result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
         
         result.close()
@@ -94,7 +95,7 @@ if __name__ == '__main__':
     et = time.time()
 
     elapsed_time = et - st
-    print('Execution time of all:', elapsed_time, 'seconds')
+    # print('Execution time of all:', elapsed_time, 'seconds')
     result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
 
     result.write("------------------------\n")
