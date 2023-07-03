@@ -1,0 +1,177 @@
+Artificial Bee Colony Algorithm 
+ 
+iteration number 0:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8687.5
+Execution time of iteration: 0.18522000312805176 seconds
+ 
+iteration number 1:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.17280960083007812 seconds
+ 
+iteration number 2:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.13427186012268066 seconds
+ 
+iteration number 3:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.11979556083679199 seconds
+ 
+iteration number 4:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.20338678359985352 seconds
+ 
+iteration number 5:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.13791704177856445 seconds
+ 
+iteration number 6:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.16378521919250488 seconds
+ 
+iteration number 7:
+best bee => data: [1. 0. 0. 1. 0. 0. 0. 1. 0. 0.], fitness: 8650.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.13826274871826172 seconds
+ 
+iteration number 8:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.14434289932250977 seconds
+ 
+iteration number 9:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.12387752532958984 seconds
+ 
+iteration number 10:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.18475985527038574 seconds
+ 
+iteration number 11:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.15713810920715332 seconds
+ 
+iteration number 12:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.15778517723083496 seconds
+ 
+iteration number 13:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.14064764976501465 seconds
+ 
+iteration number 14:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.1476457118988037 seconds
+ 
+iteration number 15:
+best bee => data: [0. 1. 0. 1. 1. 1. 0. 1. 0. 0.], fitness: 8577.8
+best fitness so far: 8706.1
+Execution time of iteration: 0.1584484577178955 seconds
+ 
+iteration number 16:
+best bee => data: [1. 0. 0. 1. 0. 0. 0. 1. 0. 0.], fitness: 8650.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.16809439659118652 seconds
+ 
+iteration number 17:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.1751108169555664 seconds
+ 
+iteration number 18:
+best bee => data: [1. 1. 1. 0. 1. 1. 1. 1. 0. 1.], fitness: 8336.9
+best fitness so far: 8706.1
+Execution time of iteration: 0.1895003318786621 seconds
+ 
+iteration number 19:
+best bee => data: [0. 0. 0. 1. 1. 1. 0. 1. 0. 1.], fitness: 8594.3
+best fitness so far: 8706.1
+Execution time of iteration: 0.14269709587097168 seconds
+ 
+iteration number 20:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.1769425868988037 seconds
+ 
+iteration number 21:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.16731476783752441 seconds
+ 
+iteration number 22:
+best bee => data: [0. 1. 0. 1. 1. 1. 0. 1. 0. 0.], fitness: 8577.8
+best fitness so far: 8706.1
+Execution time of iteration: 0.1563706398010254 seconds
+ 
+iteration number 23:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.14134812355041504 seconds
+ 
+iteration number 24:
+best bee => data: [1. 0. 0. 1. 0. 0. 0. 1. 0. 0.], fitness: 8650.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.13934826850891113 seconds
+ 
+iteration number 25:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.13161396980285645 seconds
+ 
+iteration number 26:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.1758406162261963 seconds
+ 
+iteration number 27:
+best bee => data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.16081786155700684 seconds
+ 
+iteration number 28:
+best bee => data: [0. 1. 0. 1. 0. 0. 0. 1. 0. 1.], fitness: 8687.5
+best fitness so far: 8706.1
+Execution time of iteration: 0.16787457466125488 seconds
+ 
+iteration number 29:
+best bee => data: [1. 0. 0. 1. 0. 0. 0. 1. 0. 0.], fitness: 8650.1
+best fitness so far: 8706.1
+Execution time of iteration: 0.15742015838623047 seconds
+ 
+------------------------
+FINAL RESULT
+ 
+the best Bee of all => 
+data: [0. 1. 0. 1. 1. 0. 0. 1. 0. 1.], fitness: 8706.1 
+the average fitness of all: 8668.466666666667 
+ 
+Execution time of all: 4.797561168670654 seconds 
+ 
+------------------------
+COMPARE ANSWER 
+ 
+real answer = 8706.1
+my answer = 8706.1
+loss = 0
+try1 loss = 18.6
+betterment than try1 = 18.6
+ 
+------------------------
+PARAMETERS
+ 
+population number = 200
+k = 50
+max improvement try = 10
+iteration of ABC Algorithm = 30

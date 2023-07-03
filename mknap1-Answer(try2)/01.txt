@@ -165,6 +165,8 @@ COMPARE ANSWER
 real answer = 3800
 my answer = 3800.0
 loss = 0
+try1 loss = 0
+betterment than try1 = 0
  
 ------------------------
 PARAMETERS

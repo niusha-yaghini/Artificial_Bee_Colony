@@ -25,11 +25,11 @@ if __name__ == '__main__':
     iteration_of_ABC = 30   # number of total iteration of algorithm
     
     # file name of the datas
-    data_file_name = ".\\mknap1-Question\\01.txt"
+    data_file_name = ".\\mknap1-Question\\07.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try2)\\01.txt"
-    photo_name = "01"
+    result_file_name = ".\\mknap1-Answer(try2)\\07.txt"
+    photo_name = "07"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -71,7 +71,6 @@ if __name__ == '__main__':
         iteration_et = time.time()  # end time of iteration
         iteration_elapsed_time = iteration_et - iteration_st
         # print(f"Execution time of iteration: {iteration_elapsed_time} seconds\n")
-        print(time.time())
         result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
         
         result.close()
@@ -102,7 +101,9 @@ if __name__ == '__main__':
     result.write("COMPARE ANSWER \n \n")
     result.write("real answer = \n")
     result.write(f"my answer = {best_fitness_so_far}\n")
-    result.write("loss = \n \n")
+    result.write("loss = \n")
+    result.write("try1 loss = \n")
+    result.write("betterment than try1 = \n \n")
 
     result.write("------------------------\n")
     result.write("PARAMETERS\n \n")
@@ -112,9 +113,9 @@ if __name__ == '__main__':
     result.write(f"iteration of ABC Algorithm = {iteration_of_ABC}\n")
 
     print("---------------------------------")
-    print("RESULT")
+    # print("RESULT")
     print(f"the best fitness of all: {best_fitness_so_far} \n")
-    print(f"the average fitness of all: {fitness_avg} \n")
+    # print(f"the average fitness of all: {fitness_avg} \n")
 
     result.close()
     
