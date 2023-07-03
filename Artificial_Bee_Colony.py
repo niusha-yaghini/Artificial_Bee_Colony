@@ -118,7 +118,7 @@ class ABC_algorithm():
         
         # for each bee we calculate the fitness
         for bee in population:
-            Bees.Bee._calculating_fitness(bee, self.blocks, self.items, self.weights)
+            Bees.Bee._calculating_fitness(bee, self.items, self.profits)
             total_fitness += bee.fitness
         
         # choose a random number for selecting our bee    
@@ -185,8 +185,8 @@ class ABC_algorithm():
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
         
-        Bees.Bee._calculating_fitness(current_bee, self.blocks, self.items, self.weights)
-        Bees.Bee._calculating_fitness(new_bee, self.blocks, self.items, self.weights)
+        Bees.Bee._calculating_fitness(current_bee, self.items, self.profits)
+        Bees.Bee._calculating_fitness(new_bee, self.items, self.profits)
         return True if new_bee.fitness>current_bee.fitness else False
     
     def finding_best_bee(self, population):
@@ -195,7 +195,7 @@ class ABC_algorithm():
         best_fitness = 0
         best_bee = None
         for bee in population:
-            Bees.Bee._calculating_fitness(bee, self.blocks, self.items, self.weights)
+            Bees.Bee._calculating_fitness(bee, self.items, self.profits)
             if(bee.fitness>best_fitness):
                 best_fitness = bee.fitness
                 best_bee = bee

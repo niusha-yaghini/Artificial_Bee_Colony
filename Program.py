@@ -18,31 +18,29 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    population_num = 10   # number of total bees => npop/2 = amount of first population
+    population_num = 20   # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
     k = 10   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 3
+    max_improvement_try = 5
     iteration_of_ABC = 10   # number of total iteration of algorithm
     
-    
     # file name of the datas
-    data_file_name = "Question.txt"
+    data_file_name = ".\\mknap1-Question\\02.txt"
     
     # file name for save results
-    result_file_name = "results_5"
+    result_file_name = ".\\mknap1-Answer\\02.txt"
+    photo_name = "02"
 
     # nK = number of knapstacks
     # nI = number of items
     nK, nI, Capacity, Profits, Weights = Reading_Data.Reading(data_file_name)
     
-    
     # getting result by bees :)
     st = time.time() # get the start time of all
     
-    result = open(f'{result_file_name}.txt', 'a')
+    result = open(f'{result_file_name}', 'a')
     result.write(f"Artificial Bee Colony Algorithm \n \n")        
     result.close()
-
 
     # 1) writing the results in a text
     # 2) getting the time of algorithm in each iteration
@@ -51,9 +49,10 @@ if __name__ == '__main__':
     best_fitnesses_each_iter = []
     best_fitnesses_so_far = []
     fitness_sum = 0
+    
     for i in range(iteration_of_ABC):
         iteration_st = time.time()  # start time of iteration
-        result = open(f'{result_file_name}.txt', 'a')    
+        result = open(f'{result_file_name}', 'a')    
         
         print(f"iteration number {i}:")
         best_bee_of_iteration, best_fitness_of_iteration = Bee_Colony_Algorithm()
@@ -83,7 +82,7 @@ if __name__ == '__main__':
             best_bee_so_far = b
             
     # writing the result
-    result = open(f'{result_file_name}.txt', 'a')
+    result = open(f'{result_file_name}', 'a')
     result.write("------------------------\n")
     result.write("FINAL RESULT\n \n")
         
@@ -110,12 +109,9 @@ if __name__ == '__main__':
     print(f"the best fitness of all: {best_fitness_so_far} \n")
     print(f"the average fitness of all: {fitness_avg} \n")
 
-
     result.close()
     
-    photo_name = result_file_name
     iteration_number_list = [i for i in range(1, iteration_of_ABC+1)]
     Diagram.diagram(iteration_number_list, best_fitnesses_each_iter, best_fitnesses_so_far, photo_name)
     
     print()
-

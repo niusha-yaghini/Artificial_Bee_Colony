@@ -8,12 +8,11 @@ class Bee:
         self.fitness = None
         self.improvement_try = 0
 
-    def _calculating_fitness(self, blocks, items, weights):
+    def _calculating_fitness(self, items, profits):
         # fitness is amount of capacity that the bee can take (the capacity that the answer is occupying)
         
         fitness = 0
-        for j in range(blocks):
-            for i in range(items):
-                if(self.data[i]==1):
-                    fitness += weights[j][i]
+        for i in range(items):
+            if(self.data[i]==1):
+                fitness += profits[i]
         self.fitness = fitness
