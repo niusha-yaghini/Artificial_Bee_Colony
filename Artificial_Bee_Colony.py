@@ -4,9 +4,9 @@ import random
 import copy
 
 class ABC_algorithm():
-# artificial bee colony algorithm 
+    # artificial bee colony algorithm 
 
-    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration):
+    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration, Max_imporovement_try):
         self.total_population_num = npop
         self.employed_bees_num = int(npop/2)
         self.blocks = nK
@@ -15,6 +15,7 @@ class ABC_algorithm():
         self.profits = Profits
         self.weights = Weights
         self.RW_iteration = RW_iteration # the amount of iterations in rolette wheel
+        self.Max_imporovement_try = Max_imporovement_try
           
     def employed_bees(self):
         # making initial random answers (equal to amount of employed bees number)
@@ -23,31 +24,33 @@ class ABC_algorithm():
         
         population = []
         for i in range(self.employed_bees_num):
-            row = self._solution()
-            population.append(row)
+            bee = self._making_bee()
+            population.append(bee)
             
         # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-        for bee in population():
+        for bee in population:
             change_flag = self.try_for_improvement(population, bee)
-            if(change_flag): bee.improvement_try = 0
-            else: bee.improvement_try += 0
+            if(change_flag): 
+                bee.improvement_try = 0
+            else: 
+                bee.improvement_try += 1
             
         return population
         
-    def _solution(self):
+    def _making_bee(self):
         # making each random solution -> employed bees
         
         capacity_flag = True
-        row = Bees.Bee(self.items)
-        new_row = copy.deepcopy(row)
+        bee = Bees.Bee(self.items)
+        new_bee = copy.deepcopy(bee)
         while(capacity_flag):
             x = random.randint(0, self.items-1)
-            new_row.data[x] = 1
-            capacity_flag = self._validality_check(new_row)
+            new_bee.data[x] = 1
+            capacity_flag = self._validality_check(new_bee)
             if(capacity_flag):
-                row.data[x] = 1
+                bee.data[x] = 1
                 
-        return row
+        return bee
                 
     def _validality_check(self, bee):
         # checking validality of the answers that has been made (capacity)
@@ -67,15 +70,35 @@ class ABC_algorithm():
         # on solution that employed bees have made
         
         for i in range(self.RW_iteration):
-            # selecting the bee by rroulette wheel
-            bee = self._roulette_wheel(population)
-
-            # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-            change_flag = self.try_for_improvement(population, bee)
-            if(change_flag): bee.improvement_try = 0
-            else: bee.improvement_try += 0
+            # when select_flag become true, it means the select has been done
+            select_flag = False
+            
+            # check if, the imporovement_try property of selected, bee does reached to max or not, if it reached, we select another
+            while(select_flag == False):
+                # selecting the bee by rroulette wheel
+                bee = self._roulette_wheel(population)
                 
-        
+                # check that if the imporovement_try property of bee does reached to max or not
+                if (bee.improvement_try<self.Max_imporovement_try):
+
+                    # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
+                    change_flag = self.try_for_improvement(population, bee)
+                    if(change_flag): 
+                        bee.improvement_try = 0
+                    else: 
+                        bee.improvement_try += 1
+                        self._scout_check(bee, population)
+                        
+                    select_flag = True
+                    
+    def _scout_check(self, bee, population):
+        if(bee.improvement_try==self.Max_imporovement_try):
+            self.scout_bees(population)
+            
+    def scout_bees(self, population):
+        new_bee = self._making_bee()
+        population.append(new_bee)
+                    
     def try_for_improvement(self, population, bee):
         # we do the cross over and mutation here
         # we also return that if the process made any changes or not
