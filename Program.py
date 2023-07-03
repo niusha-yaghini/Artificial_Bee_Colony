@@ -25,11 +25,11 @@ if __name__ == '__main__':
     iteration_of_ABC = 40   # number of total iteration of algorithm
     
     # file name of the datas
-    data_file_name = ".\\mknap1-Question\\06.txt"
+    data_file_name = ".\\mknap1-Question\\07.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try4)\\06.txt"
-    photo_name = "06"
+    result_file_name = ".\\mknap1-Answer(try4)\\07.txt"
+    photo_name = "07"
 
     # nK = number of knapstacks
     # nI = number of items

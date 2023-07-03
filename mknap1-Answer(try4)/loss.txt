@@ -1,4 +1,7 @@
+01: loss = 0
+02: loss = 0
+03: loss = 0
 04: loss = 0
 05: loss = 120
-06: loss = 
-07: loss = 
+06: loss = 161
+07: loss = 468
