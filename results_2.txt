@@ -1,0 +1,42 @@
+Artificial Bee Colony Algorithm 
+ 
+iteration number 0:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 600
+Execution time of iteration: 0.004987955093383789 seconds
+ 
+iteration number 1:
+best bee => data: [1. 0. 0. 1.], fitness: 640
+best fitness so far: 640
+Execution time of iteration: 0.0043141841888427734 seconds
+ 
+iteration number 2:
+best bee => data: [1. 0. 0. 1.], fitness: 640
+best fitness so far: 640
+Execution time of iteration: 0.003990888595581055 seconds
+ 
+iteration number 3:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 640
+Execution time of iteration: 0.0039899349212646484 seconds
+ 
+iteration number 4:
+best bee => data: [0. 1. 1. 0.], fitness: 600
+best fitness so far: 640
+Execution time of iteration: 0.00498652458190918 seconds
+ 
+------------------------
+FINAL RESULT
+ 
+the best Bee of all => 
+data: [1. 0. 0. 1.], fitness: 640 
+the average fitness of all: 616.0 
+Execution time of all: 0.027222871780395508 seconds
+ 
+------------------------
+PARAMETERS
+ 
+population number = 10
+k = 10
+max improvement try = 3
+iteration of ABC Algorithm = 5

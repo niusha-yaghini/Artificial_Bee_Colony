@@ -18,18 +18,18 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    population_num = 6   # number of total bees => npop/2 = amount of first population
+    population_num = 10   # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
     k = 10   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
     max_improvement_try = 3
-    iteration_of_ABC = 5   # number of total iteration of algorithm
+    iteration_of_ABC = 10   # number of total iteration of algorithm
     
     
     # file name of the datas
     data_file_name = "Question.txt"
     
     # file name for save results
-    result_file_name = "results_2.txt"
+    result_file_name = "results_5"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # getting result by bees :)
     st = time.time() # get the start time of all
     
-    result = open(f'{result_file_name}', 'a')
+    result = open(f'{result_file_name}.txt', 'a')
     result.write(f"Artificial Bee Colony Algorithm \n \n")        
     result.close()
 
@@ -47,21 +47,23 @@ if __name__ == '__main__':
     # 1) writing the results in a text
     # 2) getting the time of algorithm in each iteration
     
-    best_bees = []
-    best_fitnesses = []
+    best_bees_each_iter = []
+    best_fitnesses_each_iter = []
+    best_fitnesses_so_far = []
     fitness_sum = 0
     for i in range(iteration_of_ABC):
         iteration_st = time.time()  # start time of iteration
-        result = open(f'{result_file_name}', 'a')    
+        result = open(f'{result_file_name}.txt', 'a')    
         
         print(f"iteration number {i}:")
         best_bee_of_iteration, best_fitness_of_iteration = Bee_Colony_Algorithm()
         fitness_sum += best_fitness_of_iteration
 
         print(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}")
-        best_bees.append(copy.deepcopy(best_bee_of_iteration))
-        best_fitnesses.append(copy.deepcopy(best_fitness_of_iteration))
-        best_fitness_so_far = max(best_fitnesses)
+        best_bees_each_iter.append(copy.deepcopy(best_bee_of_iteration))
+        best_fitnesses_each_iter.append(copy.deepcopy(best_fitness_of_iteration))
+        best_fitness_so_far = max(best_fitnesses_each_iter)
+        best_fitnesses_so_far.append(best_fitness_so_far)
 
         result.write(f"iteration number {i}:\n")
         result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
@@ -76,12 +78,12 @@ if __name__ == '__main__':
 
     # clearfiying the bee
     best_bee_so_far = None
-    for b in best_bees:
+    for b in best_bees_each_iter:
         if(b.fitness == best_fitness_so_far):
             best_bee_so_far = b
             
     # writing the result
-    result = open(f'{result_file_name}', 'a')
+    result = open(f'{result_file_name}.txt', 'a')
     result.write("------------------------\n")
     result.write("FINAL RESULT\n \n")
         
@@ -89,30 +91,31 @@ if __name__ == '__main__':
     result.write(f"the best Bee of all => \ndata: {best_bee_so_far.data}, fitness: {best_fitness_so_far} \n")
     result.write(f"the average fitness of all: {fitness_avg} \n \n")
 
+    # end time of all
+    et = time.time()
+
+    elapsed_time = et - st
+    print('Execution time of all:', elapsed_time, 'seconds')
+    result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
+
     result.write("------------------------\n")
     result.write("PARAMETERS\n \n")
-    result.write(f"population number = {population_num}")
-    result.write(f"k = {k}")
-    result.write(f"max improvement try = {max_improvement_try}")
-    result.write(f"iteration of ABC Algorithm = {iteration_of_ABC}")
+    result.write(f"population number = {population_num}\n")
+    result.write(f"k = {k}\n")
+    result.write(f"max improvement try = {max_improvement_try}\n")
+    result.write(f"iteration of ABC Algorithm = {iteration_of_ABC}\n")
 
     print("---------------------------------")
     print("RESULT")
     print(f"the best fitness of all: {best_fitness_so_far} \n")
     print(f"the average fitness of all: {fitness_avg} \n")
 
-    # end time of all
-    et = time.time()
-
-    elapsed_time = et - st
-    print('Execution time of all:', elapsed_time, 'seconds')
-    result.write(f'Execution time of all: {elapsed_time} seconds')
 
     result.close()
     
-    photo_number = 0
-    iteration_number_list = [i for i in range(1, iteration_of_ABC)]
-    Diagram.diagram(iteration_number_list, best_fitnesses, photo_number)
+    photo_name = result_file_name
+    iteration_number_list = [i for i in range(1, iteration_of_ABC+1)]
+    Diagram.diagram(iteration_number_list, best_fitnesses_each_iter, best_fitnesses_so_far, photo_name)
     
     print()
 
