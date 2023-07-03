@@ -1,0 +1,44 @@
+Artificial Bee Colony Algorithm 
+ 
+iteration number 0:
+best bee => data: [1. 0. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 0. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 0. 0. 1. 1. 1. 1. 1.], fitness: 10441.0
+best fitness so far: 10441.0
+Execution time of iteration: 22.705152988433838 seconds
+ 
+iteration number 1:
+best bee => data: [0. 1. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 0. 1. 1. 1. 0. 1. 1. 0. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 0. 1. 0. 1. 1. 1. 1. 0. 1.], fitness: 10389.0
+best fitness so far: 10441.0
+Execution time of iteration: 21.398056268692017 seconds
+ 
+iteration number 2:
+best bee => data: [1. 1. 0. 1. 0. 1. 1. 1. 1. 0. 0. 1. 1. 1. 1. 1. 1. 0. 1. 1. 0. 1. 1. 0.
+ 1. 0. 1. 0. 1. 0. 1. 1. 0. 1. 0. 0. 1. 1. 1.], fitness: 10401.0
+best fitness so far: 10441.0
+Execution time of iteration: 22.40121817588806 seconds
+ 
+iteration number 3:
+best bee => data: [1. 1. 0. 1. 0. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 1. 0. 1. 0. 0. 1. 0.
+ 0. 0. 1. 1. 1. 1. 0. 1. 0. 0. 0. 0. 1. 0. 1.], fitness: 10378.0
+best fitness so far: 10441.0
+Execution time of iteration: 23.27793288230896 seconds
+ 
+iteration number 4:
+best bee => data: [1. 0. 0. 1. 0. 1. 1. 1. 1. 1. 1. 0. 0. 0. 1. 1. 1. 0. 0. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 0. 0. 1. 1. 1. 1. 1.], fitness: 10351.0
+best fitness so far: 10441.0
+Execution time of iteration: 22.825752019882202 seconds
+ 
+iteration number 5:
+best bee => data: [1. 0. 1. 1. 0. 1. 0. 0. 0. 1. 1. 0. 1. 0. 1. 1. 1. 0. 1. 0. 1. 1. 1. 0.
+ 0. 1. 1. 0. 0. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1.], fitness: 10281.0
+best fitness so far: 10441.0
+Execution time of iteration: 23.44961428642273 seconds
+ 
+iteration number 6:
+best bee => data: [0. 0. 0. 1. 0. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
+ 1. 1. 1. 1. 1. 1. 1. 1. 1. 0. 1. 1. 1. 1. 1.], fitness: 10444.0
+best fitness so far: 10444.0
+Execution time of iteration: 21.374794483184814 seconds
+ 

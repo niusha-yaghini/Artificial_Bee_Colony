@@ -18,18 +18,18 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    population_num = 200   # number of total bees => npop/2 = amount of first population
+    population_num = 5000  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    k = 50   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 10
-    iteration_of_ABC = 30   # number of total iteration of algorithm
+    k = 200   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 30
+    iteration_of_ABC = 40   # number of total iteration of algorithm
     
     # file name of the datas
-    data_file_name = ".\\mknap1-Question\\07.txt"
+    data_file_name = ".\\mknap1-Question\\06.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try2)\\07.txt"
-    photo_name = "07"
+    result_file_name = ".\\mknap1-Answer(try4)\\06.txt"
+    photo_name = "06"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -102,8 +102,8 @@ if __name__ == '__main__':
     result.write("real answer = \n")
     result.write(f"my answer = {best_fitness_so_far}\n")
     result.write("loss = \n")
-    result.write("try1 loss = \n")
-    result.write("betterment than try1 = \n \n")
+    result.write("try3 loss = \n")
+    result.write("betterment than try3 = \n \n")
 
     result.write("------------------------\n")
     result.write("PARAMETERS\n \n")
