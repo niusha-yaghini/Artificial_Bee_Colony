@@ -18,17 +18,17 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    population_num = 5000  # number of total bees => npop/2 = amount of first population
+    population_num = 10000  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    k = 200   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 30
+    k = 500   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 50
     iteration_of_ABC = 40   # number of total iteration of algorithm
     
     # file name of the datas
     data_file_name = ".\\mknap1-Question\\07.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try4)\\07.txt"
+    result_file_name = ".\\mknap1-Answer(try5)\\07.txt"
     photo_name = "07"
 
     # nK = number of knapstacks
