@@ -4,16 +4,49 @@ import Reading_Data
 import time
 import copy
 import Diagram
+from datetime import datetime
 
 
 def Bee_Colony_Algorithm():
-    # ABC = ABC.ABC_algorithm(npop, nK, nI, Capacity, Weights, ndim, limit, lower_bound, upper_bound, ncycle, search_radius=1)
-    ABC = Artificial_Bee_Colony.ABC_algorithm(population_num, nK, nI, Capacity, Profits, Weights, k, max_improvement_try)
-    population = ABC.employed_bees()
-    ABC.onlooker_bees(population)
-    best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
+    population = []
+        
+    best_bees_of_each_inner_iteration = []
+    best_fitnesses_of_each_inner_iteration = []
+    best_fitnesses_so_far = []
+    for i in range(inner_iteration_of_algorithm):  
+
+        iteration_st = time.time()  # start time of iteration
+        result = open(f'{result_file_name}', 'a')    
+        result.write(f"iteration number {i}:")
+        print(f"iteration number {i}:")
+ 
+        ABC = Artificial_Bee_Colony.ABC_algorithm(population_num, nK, nI, Capacity, Profits, Weights, k, max_improvement_try, pc, pm)
+        ABC.employed_bees(population)
+        ABC.onlooker_bees(population)
+        best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
+        
+        best_bees_of_each_inner_iteration.append(copy.deepcopy(best_bee_of_iteration))
+        best_fitnesses_of_each_inner_iteration.append(copy.deepcopy(best_fitness_of_iteration))
+        best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
+        best_fitnesses_so_far.append(best_fitness_so_far)
+
+        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
+        result.write(f"best fitness so far: {best_fitness_so_far}\n")
+
+        print(f"best fitness of iteration = {best_fitness_of_iteration}")
+        print(f"best fitness so far: {best_fitness_so_far}")
+        currentTime = datetime.now().strftime("%H:%M:%S")
+        print("time = ", currentTime)
+
+        ABC.scout_bees(population)
+        
+        iteration_et = time.time()  # end time of iteration
+        iteration_elapsed_time = iteration_et - iteration_st
+        result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
+        
+        result.close()
     
-    return best_bee_of_iteration, best_fitness_of_iteration
+    return best_bees_of_each_inner_iteration, best_bees_of_each_inner_iteration, best_fitnesses_so_far
 
 
 if __name__ == '__main__':
@@ -22,7 +55,11 @@ if __name__ == '__main__':
                          # this must be an even number 
     k = 500   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
     max_improvement_try = 50
-    iteration_of_ABC = 40   # number of total iteration of algorithm
+    inner_iteration_of_algorithm = 20
+    pc = 0.7 # the probblity of cross-over
+    pm = 2 # the probblity of mutation (pm/items)
+
+    # total_iteration_of_ABC = 10  # number of total iteration of algorithm
     
     # file name of the datas
     data_file_name = ".\\mknap1-Question\\07.txt"
@@ -36,7 +73,6 @@ if __name__ == '__main__':
     nK, nI, Capacity, Profits, Weights = Reading_Data.Reading(data_file_name)
     
     # getting result by bees :)
-    st = time.time() # get the start time of all
     
     result = open(f'{result_file_name}', 'a')
     result.write(f"Artificial Bee Colony Algorithm \n \n")        
@@ -45,81 +81,53 @@ if __name__ == '__main__':
     # 1) writing the results in a text
     # 2) getting the time of algorithm in each iteration
     
-    best_bees_each_iter = []
-    best_fitnesses_each_iter = []
-    best_fitnesses_so_far = []
-    fitness_sum = 0
-    
-    for i in range(iteration_of_ABC):
-        iteration_st = time.time()  # start time of iteration
-        result = open(f'{result_file_name}', 'a')    
-        
-        print(f"iteration number {i}")
-        best_bee_of_iteration, best_fitness_of_iteration = Bee_Colony_Algorithm()
-        fitness_sum += best_fitness_of_iteration
-
-        # print(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}")
-        best_bees_each_iter.append(copy.deepcopy(best_bee_of_iteration))
-        best_fitnesses_each_iter.append(copy.deepcopy(best_fitness_of_iteration))
-        best_fitness_so_far = max(best_fitnesses_each_iter)
-        best_fitnesses_so_far.append(best_fitness_so_far)
-
-        result.write(f"iteration number {i}:\n")
-        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
-        result.write(f"best fitness so far: {best_fitness_so_far}\n")
-
-        iteration_et = time.time()  # end time of iteration
-        iteration_elapsed_time = iteration_et - iteration_st
-        # print(f"Execution time of iteration: {iteration_elapsed_time} seconds\n")
-        result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
-        
-        result.close()
+    st = time.time() # get the start time of all     
+       
+    best_bees_of_iterations, best_fitnesses_of_iterations, best_fitnesses_so_far = Bee_Colony_Algorithm()
 
     # clearfiying the bee
-    best_bee_so_far = None
-    for b in best_bees_each_iter:
-        if(b.fitness == best_fitness_so_far):
-            best_bee_so_far = b
+    best_final_fitness = max(best_fitnesses_so_far)
+    best_final_bee = None
+    for b in best_bees_of_iterations:
+        if(b.fitness == best_final_fitness):
+            best_final_bee = b
             
     # writing the result
     result = open(f'{result_file_name}', 'a')
     result.write("------------------------\n")
     result.write("FINAL RESULT\n \n")
         
-    fitness_avg = fitness_sum/iteration_of_ABC
-    result.write(f"the best Bee of all => \ndata: {best_bee_so_far.data}, fitness: {best_fitness_so_far} \n")
+    fitness_avg = np.average(best_fitnesses_of_iterations)
+    result.write(f"the best final Bee => \ndata: {best_final_bee.data}, fitness: {best_final_fitness} \n")
     result.write(f"the average fitness of all: {fitness_avg} \n \n")
 
     # end time of all
     et = time.time()
 
     elapsed_time = et - st
-    # print('Execution time of all:', elapsed_time, 'seconds')
     result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
 
     result.write("------------------------\n")
     result.write("COMPARE ANSWER \n \n")
     result.write("real answer = \n")
-    result.write(f"my answer = {best_fitness_so_far}\n")
+    result.write(f"my answer = {best_final_fitness}\n")
     result.write("loss = \n")
-    result.write("try3 loss = \n")
-    result.write("betterment than try3 = \n \n")
 
     result.write("------------------------\n")
     result.write("PARAMETERS\n \n")
     result.write(f"population number = {population_num}\n")
     result.write(f"k = {k}\n")
     result.write(f"max improvement try = {max_improvement_try}\n")
-    result.write(f"iteration of ABC Algorithm = {iteration_of_ABC}\n")
+    result.write(f"iteration of ABC Algorithm = {inner_iteration_of_algorithm}\n")
 
     print("---------------------------------")
     # print("RESULT")
-    print(f"the best fitness of all: {best_fitness_so_far} \n")
+    print(f"the best fitness of all: {best_final_fitness} \n")
     # print(f"the average fitness of all: {fitness_avg} \n")
 
     result.close()
     
-    iteration_number_list = [i for i in range(1, iteration_of_ABC+1)]
-    Diagram.diagram(iteration_number_list, best_fitnesses_each_iter, best_fitnesses_so_far, photo_name)
+    iteration_number_list = [i for i in range(1, inner_iteration_of_algorithm+1)]
+    Diagram.diagram(iteration_number_list, best_fitnesses_of_iterations, best_fitnesses_so_far, photo_name)
     
     print()

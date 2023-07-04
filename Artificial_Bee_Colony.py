@@ -6,9 +6,7 @@ import copy
 class ABC_algorithm():
     # artificial bee colony algorithm 
 
-    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration, Max_imporovement_try):
-        # self.total_population_num = npop
-        # self.employed_bees_num = int(npop/2)
+    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration, Max_imporovement_try, pc, pm):
         self.employed_bees_num = npop
         self.knapsacks = nK
         self.items = nI
@@ -17,16 +15,18 @@ class ABC_algorithm():
         self.weights = Weights
         self.RW_iteration = RW_iteration # the amount of iterations in rolette wheel
         self.Max_imporovement_try = Max_imporovement_try
+        self.pc = pc
+        self.pm = pm
           
-    def employed_bees(self):
+    def employed_bees(self, population):
         # making initial random answers (equal to amount of employed bees number)
         # do the improvement-try once on each of them
         # return the made answers
         
-        population = []
-        for i in range(self.employed_bees_num):
-            bee = self._making_bee()
-            population.append(bee)
+        if(len(population) == 0):
+            for i in range(self.employed_bees_num):
+                bee = self._making_bee()
+                population.append(bee)
             
         # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
         for bee in population:
@@ -71,66 +71,55 @@ class ABC_algorithm():
         # by rolette wheel precedure we do "k" (RW_iteration) times cross_over and mutation,
         # on solution that employed bees have made
         
+        sum_of_fitnesses = sum([bee.fitness for bee in population])
+        
         for i in range(self.RW_iteration):
-            # when select_flag become true, it means the select has been done
-            select_flag = False
             
-            # check if, the imporovement_try property of selected, bee does reached to max or not, if it reached, we select another
-            while(select_flag == False):
-                # selecting the bee by roulette wheel
-                bee = self._roulette_wheel(population)
-                
-                # check that if the imporovement_try property of bee does reached to max or not
-                if (bee.improvement_try<self.Max_imporovement_try):
-
-                    # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-                    change_flag = self._try_for_improvement(population, bee)
-                    if(change_flag): 
-                        bee.improvement_try = 0
-                    else: 
-                        bee.improvement_try += 1
-                        self._scout_check(bee, population)
-                        
-                    select_flag = True
-                    
-    # def _scout_check(self, bee, population):
-    #     if(bee.improvement_try==self.Max_imporovement_try):
-    #         self.scout_bees(population)
+            # selecting the bee by roulette wheel
+            bee = self._roulette_wheel(population, sum_of_fitnesses)
             
-    # def scout_bees(self, population):
-    #     new_bee = self._making_bee()
-    #     population.append(new_bee)
-                    
+            # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
+            change_flag = self._try_for_improvement(population, bee)
+            if(change_flag): 
+                bee.improvement_try = 0
+            else: 
+                bee.improvement_try += 1
+                self._scout_check(bee, population)
+                                                        
     def scout_bees(self, population):
+        delete_bees = []
+        new_bees = []
         for bee in population:
             if(bee.improvement_try>=self.Max_imporovement_try):
-                population.remove
-                    
+                delete_bees.append(bee)
+                new_bees.append(self._making_bee())
+        for i in range(len(delete_bees)):
+            population.remove(delete_bees[i])
+            population.append(new_bees[i])
                     
     def _try_for_improvement(self, population, bee):
         # we do the cross over and mutation here
         # we also return that if the process made any changes or not
         
+        change_flag = False
+        new_bee = copy.deepcopy(bee)
+        
         # doing the cross over on selected bee and a neighbor (that will be handled in _cross_over)
-        change_flag_co = self._cross_over(population, bee)
+        self._cross_over(population, new_bee)
         
         # doing the mutation on selected bee
-        change_flag_m = self._mutation(bee) 
+        self._mutation(new_bee) 
         
-        return (change_flag_co or change_flag_m)
+        if(self._validality_check(new_bee) and self._improvement_check(bee, new_bee)):
+            bee.data = new_bee.data
+            change_flag = True
+
+        return change_flag        
     
-    def _roulette_wheel(self, population):
-        # more fitness = more probbility
-        
-        total_fitness = 0
-        
-        # for each bee we calculate the fitness
-        for bee in population:
-            Bees.Bee._calculating_fitness(bee, self.items, self.profits)
-            total_fitness += bee.fitness
+    def _roulette_wheel(self, population, sum_of_fitnesses):
         
         # choose a random number for selecting our bee    
-        pick = random.uniform(0, total_fitness)
+        pick = random.uniform(0, sum_of_fitnesses)
         
         # selecting our bee by the "pick" number and roulette wheel procedure
         current = 0
@@ -144,55 +133,30 @@ class ABC_algorithm():
         # for each answer we also select a random position, and it replaced with its neighbors pos
         # if the changed answer be better than the previous one and it be valid, it will change
         # we also return that if the cross-over has done a change or not
+        
+        x = random.random()
 
-        change_flag = False
-        new_bee = copy.deepcopy(bee)
-        
-        # choosing a random position for change
-        random_pos = random.randint(0, self.items-1)
-        
-        # choosing a neighbor, and it does not matter if it is the bee itself
-        random_neighbor = random.choice(population)
-
-        # choosing a neighbor that is not itself
-        # random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=bee])
-        
-        # checking that if the two position of bees are different or not (if they were different we do the replacement)
-        if(new_bee.data[random_pos] != random_neighbor.data[random_pos]):
-            new_bee.data[random_pos] = random_neighbor.data[random_pos]
+        if(x<=self.pc):
+            # choosing a random position for change
+            random_pos = random.randint(0, self.items-1)
             
-            # check if the new_bee is valid, and had improvements from the bee
-            if(self._validality_check(new_bee) and self._improvement_check(bee, new_bee)):
-                bee.data = new_bee.data
-                change_flag = True
+            # choosing a neighbor, and it does not matter if it is the bee itself
+            random_neighbor = random.choice(population)
         
-        return change_flag
-                             
+            # checking that if the two position of bees are different or not (if they were different we do the replacement)
+            if(bee.data[random_pos] != random_neighbor.data[random_pos]):
+                bee.data[random_pos] = random_neighbor.data[random_pos]
+                                            
     def _mutation(self, bee):
         # for each answer that employed bees have made, we select a random position and we change it with 0 or 1 (randomly)
         # only if the changed answer be better than the previous one and it be valid, it will change
         # we also return that if the muatation has done a change or not
-
-        change_flag = False
-        new_bee = copy.deepcopy(bee)
         
-        # choosing a random position
-        random_pos = random.randint(0, self.items-1)
-        
-        # choosing a random new answer for the choosen position (0 or 1)
-        replace_target = random.randint(0, 1)
-        
-        # check that if the current answer of choosen position is different with replace_target or not (if they were different we do the replacement)
-        if(new_bee.data[random_pos] != replace_target):
-            new_bee.data[random_pos] = replace_target
-            
-            # check if the new_bee is valid, and had improvements from the bee
-            if(self._validality_check(new_bee) and self._improvement_check(bee, new_bee)):
-                bee.data = new_bee.data
-                change_flag = True
+        for i in bee.data:            
+            x = random.random()
+            if(x<=self.pm):
+                bee.data[i] = 1 if bee.data[i] == 0 else 0
                 
-        return change_flag
-
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
         
@@ -211,4 +175,4 @@ class ABC_algorithm():
                 best_fitness = bee.fitness
                 best_bee = bee
 
-        return best_bee, best_fitness
+        return best_bee
