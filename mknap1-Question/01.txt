@@ -1,4 +1,4 @@
-number of blocks: 10
+number of knapsacks: 10
 number of items: 6
 
 Capacity: 

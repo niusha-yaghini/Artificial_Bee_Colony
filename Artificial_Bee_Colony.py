@@ -7,9 +7,10 @@ class ABC_algorithm():
     # artificial bee colony algorithm 
 
     def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration, Max_imporovement_try):
-        self.total_population_num = npop
-        self.employed_bees_num = int(npop/2)
-        self.blocks = nK
+        # self.total_population_num = npop
+        # self.employed_bees_num = int(npop/2)
+        self.employed_bees_num = npop
+        self.knapsacks = nK
         self.items = nI
         self.capacity = Capacity
         self.profits = Profits
@@ -29,7 +30,7 @@ class ABC_algorithm():
             
         # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
         for bee in population:
-            change_flag = self.try_for_improvement(population, bee)
+            change_flag = self._try_for_improvement(population, bee)
             if(change_flag): 
                 bee.improvement_try = 0
             else: 
@@ -45,17 +46,18 @@ class ABC_algorithm():
         new_bee = copy.deepcopy(bee)
         while(capacity_flag):
             x = random.randint(0, self.items-1)
-            new_bee.data[x] = 1
-            capacity_flag = self._validality_check(new_bee)
-            if(capacity_flag):
-                bee.data[x] = 1
+            if(new_bee.data[x]==0):
+                new_bee.data[x] = 1
+                capacity_flag = self._validality_check(new_bee)
+                if(capacity_flag):
+                    bee.data[x] = 1
                 
         return bee
                 
     def _validality_check(self, bee):
         # checking validality of the answers that has been made (capacity)
         
-        for j in range(self.blocks):
+        for j in range(self.knapsacks):
             current_capacity = self.capacity[j]
             my_capacity = 0
             for i in range(self.items):
@@ -75,14 +77,14 @@ class ABC_algorithm():
             
             # check if, the imporovement_try property of selected, bee does reached to max or not, if it reached, we select another
             while(select_flag == False):
-                # selecting the bee by rroulette wheel
+                # selecting the bee by roulette wheel
                 bee = self._roulette_wheel(population)
                 
                 # check that if the imporovement_try property of bee does reached to max or not
                 if (bee.improvement_try<self.Max_imporovement_try):
 
                     # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-                    change_flag = self.try_for_improvement(population, bee)
+                    change_flag = self._try_for_improvement(population, bee)
                     if(change_flag): 
                         bee.improvement_try = 0
                     else: 
@@ -91,15 +93,21 @@ class ABC_algorithm():
                         
                     select_flag = True
                     
-    def _scout_check(self, bee, population):
-        if(bee.improvement_try==self.Max_imporovement_try):
-            self.scout_bees(population)
+    # def _scout_check(self, bee, population):
+    #     if(bee.improvement_try==self.Max_imporovement_try):
+    #         self.scout_bees(population)
             
-    def scout_bees(self, population):
-        new_bee = self._making_bee()
-        population.append(new_bee)
+    # def scout_bees(self, population):
+    #     new_bee = self._making_bee()
+    #     population.append(new_bee)
                     
-    def try_for_improvement(self, population, bee):
+    def scout_bees(self, population):
+        for bee in population:
+            if(bee.improvement_try>=self.Max_imporovement_try):
+                population.remove
+                    
+                    
+    def _try_for_improvement(self, population, bee):
         # we do the cross over and mutation here
         # we also return that if the process made any changes or not
         
@@ -143,8 +151,11 @@ class ABC_algorithm():
         # choosing a random position for change
         random_pos = random.randint(0, self.items-1)
         
+        # choosing a neighbor, and it does not matter if it is the bee itself
+        random_neighbor = random.choice(population)
+
         # choosing a neighbor that is not itself
-        random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=bee])
+        # random_neighbor = random.choice([neighbor for neighbor in population if neighbor!=bee])
         
         # checking that if the two position of bees are different or not (if they were different we do the replacement)
         if(new_bee.data[random_pos] != random_neighbor.data[random_pos]):
