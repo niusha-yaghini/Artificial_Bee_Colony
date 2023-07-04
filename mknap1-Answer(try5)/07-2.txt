@@ -6014,11 +6014,9 @@ Execution time of all: 256.93781185150146 seconds
 ------------------------ 
 COMPARE ANSWER 
  
-real answer = 
+real answer = 16537
 my answer = 16281.0 
-loss = 
-try4 loss = 
-betterment than try4 = 
+loss = 256
  
 ------------------------ 
 PARAMETERS 
@@ -6029,3 +6027,4 @@ Max improvement try = 20
 Number of ABC algorithm's iterations = 1000
 Probblity of cross-over = 0.7 
 Probblity of mutation = 2 
+Percedure Type = Roulette Wheel

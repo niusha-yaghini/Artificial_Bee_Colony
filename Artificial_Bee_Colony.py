@@ -112,7 +112,7 @@ class ABC_algorithm():
         new_bee = copy.deepcopy(bee)
         
         # doing the cross over on selected bee and a neighbor (that will be handled in _cross_over)
-        self._cross_over(population, new_bee)
+        self._cross_over_one_point(population, new_bee)
         
         # doing the mutation on selected bee
         self._mutation(new_bee) 
@@ -127,7 +127,14 @@ class ABC_algorithm():
         tournoment_list = []
         for i in range(self.k_tournoment):
             tournoment_list.append(random.choice(population))
-        return max([bee.fitness for bee in tournoment_list])
+            
+        maxF = 0
+        max_B = None
+        for bee in population:
+            if(bee.fitness>maxF):
+                maxF = bee.fitness
+                max_B = bee
+        return max_B
     
     def _roulette_wheel(self, population, sum_of_fitnesses):
         
@@ -140,6 +147,34 @@ class ABC_algorithm():
             current += bee.fitness
             if current >= pick:
                 return bee         
+                
+    def _cross_over_one_point(self, population, bee):
+        # for each answer that employed bees have made, we select a radom neighbor
+        # for each answer we also select a random position, and it replaced with its neighbors pos
+        # if the changed answer be better than the previous one and it be valid, it will change
+        # we also return that if the cross-over has done a change or not
+        
+        x = random.random()
+
+        if(x<=self.crossover_probbility):
+            # choosing a random position for change
+            random_pos = random.randint(2, self.items-1)
+            
+            # choosing a neighbor, and it does not matter if it is the bee itself
+            neighbor_bee = random.choice(population)
+            
+            self.replace_terms(bee, neighbor_bee, random_pos)
+        
+    def replace_terms(self, bee, neighbor_bee, random_pos):
+        # in here we change parts of our choromosome base on choosed term
+        
+        data = []
+        for i in range(random_pos):
+            data.append(bee.data[i])
+        for j in range(random_pos, self.items):
+            data.append(neighbor_bee.data[j])
+        
+        bee.data = data
                 
     def _cross_over(self, population, bee):
         # for each answer that employed bees have made, we select a radom neighbor

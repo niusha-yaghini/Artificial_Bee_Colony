@@ -15,9 +15,9 @@ def Bee_Colony_Algorithm():
     best_fitnesses_so_far = []
     for i in range(inner_iteration_of_algorithm):  
 
-        iteration_st = time.time()  # start time of iteration
+        # iteration_st = time.time()  # start time of iteration
         result = open(f'{result_file_name}', 'a')    
-        result.write(f"iteration number {i}:")
+        # result.write(f"iteration number {i}: \n")
         currentTime = datetime.now().strftime("%H:%M:%S")
         print(f"iteration number {i}: {currentTime}")
  
@@ -31,17 +31,17 @@ def Bee_Colony_Algorithm():
         best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
         best_fitnesses_so_far.append(best_fitness_so_far)
 
-        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
-        result.write(f"best fitness so far: {best_fitness_so_far}\n")
+        # result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
+        # result.write(f"best fitness so far: {best_fitness_so_far}\n")
 
         print(f"best fitness of iteration = {best_fitness_of_iteration}")
         print(f"best fitness so far: {best_fitness_so_far}")
 
         ABC.scout_bees(population)
         
-        iteration_et = time.time()  # end time of iteration
-        iteration_elapsed_time = iteration_et - iteration_st
-        result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
+        # iteration_et = time.time()  # end time of iteration
+        # iteration_elapsed_time = iteration_et - iteration_st
+        # result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
         
         result.close()
     
@@ -58,13 +58,15 @@ if __name__ == '__main__':
     pc = 0 # the probblity of cross-over
     pm = 4 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
+    percedure_type = "Tournoment"
+    cross_over_type = "one_point"
     
     # file name of the datas
     data_file_name = ".\\mknap1-Question\\07.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try6)\\07.txt"
-    photo_name = "07"
+    result_file_name = ".\\mknap1-Answer(try6)\\07-1.txt"
+    photo_name = "07-1"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -92,7 +94,7 @@ if __name__ == '__main__':
             
     # writing the result
     result = open(f'{result_file_name}', 'a')
-    result.write("------------------------ \n")
+    # result.write("------------------------ \n")
     result.write("FINAL RESULT \n \n")
         
     # fitness_avg = np.average(best_fitnesses_of_iterations)
@@ -111,8 +113,8 @@ if __name__ == '__main__':
     result.write("real answer = \n")
     result.write(f"my answer = {best_final_fitness} \n")
     result.write("loss = \n")
-    result.write("try4 loss = \n")
-    result.write("betterment than try4 = \n \n")    
+    # result.write("try4 loss = \n")
+    # result.write("betterment than try4 = \n \n")    
 
     result.write("------------------------ \n")
     result.write("PARAMETERS \n \n")
@@ -120,11 +122,14 @@ if __name__ == '__main__':
     result.write(f"Number of Onlooker Bees = {onlooker_bees_num}\n")
     result.write(f"Max improvement try = {max_improvement_try}\n")
     result.write(f"Number of ABC algorithm's iterations = {inner_iteration_of_algorithm}\n")
-    result.write(f"Probblity of cross-over = {pc} \n")
-    result.write(f"Probblity of mutation = {pm} \n")
+    result.write(f"cross_over type = {cross_over_type}\n")
+    result.write(f"Probblity of cross-over = {pc}\n")
+    result.write(f"Probblity of mutation = {pm}\n")
+    result.write(f"K tournoment percent = {k_tournomet_percent}\n")
+    result.write(f"Precedure Type = {percedure_type}")
 
     print("---------------------------------")
-    print(f"the best fitness of all: {best_final_fitness} \n")
+    print(f"the best fitness of all: {best_final_fitness}")
 
     result.close()
     
