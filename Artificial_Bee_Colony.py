@@ -6,17 +6,17 @@ import copy
 class ABC_algorithm():
     # artificial bee colony algorithm 
 
-    def __init__(self, npop, nK, nI, Capacity, Profits, Weights, RW_iteration, Max_imporovement_try, pc, pm):
-        self.employed_bees_num = npop
+    def __init__(self, population_num, nK, nI, Capacity, Profits, Weights, onlooker_bees_num, Max_imporovement_try, pc, pm):
+        self.employed_bees_num = population_num
         self.knapsacks = nK
         self.items = nI
         self.capacity = Capacity
         self.profits = Profits
         self.weights = Weights
-        self.RW_iteration = RW_iteration # the amount of iterations in rolette wheel
+        self.onlooker_bees_num = onlooker_bees_num
         self.Max_imporovement_try = Max_imporovement_try
-        self.pc = pc
-        self.pm = pm
+        self.crossover_probbility = pc
+        self.mutation_probblity = pm/self.items
           
     def employed_bees(self, population):
         # making initial random answers (equal to amount of employed bees number)
@@ -68,12 +68,12 @@ class ABC_algorithm():
         return True
                 
     def onlooker_bees(self, population):
-        # by rolette wheel precedure we do "k" (RW_iteration) times cross_over and mutation,
+        # by rolette wheel precedure we do "onlooker_bees_num" times cross_over and mutation,
         # on solution that employed bees have made
         
         sum_of_fitnesses = sum([bee.fitness for bee in population])
         
-        for i in range(self.RW_iteration):
+        for i in range(self.onlooker_bees_num):
             
             # selecting the bee by roulette wheel
             bee = self._roulette_wheel(population, sum_of_fitnesses)
@@ -136,7 +136,7 @@ class ABC_algorithm():
         
         x = random.random()
 
-        if(x<=self.pc):
+        if(x<=self.crossover_probbility):
             # choosing a random position for change
             random_pos = random.randint(0, self.items-1)
             
@@ -154,8 +154,12 @@ class ABC_algorithm():
         
         for i in bee.data:            
             x = random.random()
-            if(x<=self.pm):
-                bee.data[i] = 1 if bee.data[i] == 0 else 0
+            if(x<=self.mutation_probblity):
+                # bee.data[i] = 1 if bee.data[i] == 0 else 0
+                if(bee.data[i] == 0):
+                    bee.data[i] = 1
+                elif(bee.data[i] == 1):
+                    bee.data[i] = 0
                 
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not

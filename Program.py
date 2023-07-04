@@ -6,8 +6,8 @@ import copy
 import Diagram
 from datetime import datetime
 
-
 def Bee_Colony_Algorithm():
+    
     population = []
         
     best_bees_of_each_inner_iteration = []
@@ -18,9 +18,10 @@ def Bee_Colony_Algorithm():
         iteration_st = time.time()  # start time of iteration
         result = open(f'{result_file_name}', 'a')    
         result.write(f"iteration number {i}:")
-        print(f"iteration number {i}:")
+        currentTime = datetime.now().strftime("%H:%M:%S")
+        print(f"iteration number {i}: {currentTime}")
  
-        ABC = Artificial_Bee_Colony.ABC_algorithm(population_num, nK, nI, Capacity, Profits, Weights, k, max_improvement_try, pc, pm)
+        ABC = Artificial_Bee_Colony.ABC_algorithm(employed_bees_num, nK, nI, Capacity, Profits, Weights, onlooker_bees_num, max_improvement_try, pc, pm)
         ABC.employed_bees(population)
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
@@ -35,8 +36,6 @@ def Bee_Colony_Algorithm():
 
         print(f"best fitness of iteration = {best_fitness_of_iteration}")
         print(f"best fitness so far: {best_fitness_so_far}")
-        currentTime = datetime.now().strftime("%H:%M:%S")
-        print("time = ", currentTime)
 
         ABC.scout_bees(population)
         
@@ -51,15 +50,13 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    population_num = 10000  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 500  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    k = 500   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 50
-    inner_iteration_of_algorithm = 20
+    onlooker_bees_num = 50   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 20
+    inner_iteration_of_algorithm = 5
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
-
-    # total_iteration_of_ABC = 10  # number of total iteration of algorithm
     
     # file name of the datas
     data_file_name = ".\\mknap1-Question\\07.txt"
@@ -94,8 +91,8 @@ if __name__ == '__main__':
             
     # writing the result
     result = open(f'{result_file_name}', 'a')
-    result.write("------------------------\n")
-    result.write("FINAL RESULT\n \n")
+    result.write("------------------------ \n")
+    result.write("FINAL RESULT \n \n")
         
     fitness_avg = np.average(best_fitnesses_of_iterations)
     result.write(f"the best final Bee => \ndata: {best_final_bee.data}, fitness: {best_final_fitness} \n")
@@ -107,23 +104,25 @@ if __name__ == '__main__':
     elapsed_time = et - st
     result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
 
-    result.write("------------------------\n")
+    result.write("------------------------ \n")
     result.write("COMPARE ANSWER \n \n")
     result.write("real answer = \n")
-    result.write(f"my answer = {best_final_fitness}\n")
+    result.write(f"my answer = {best_final_fitness} \n")
     result.write("loss = \n")
+    result.write("try4 loss = \n")
+    result.write("betterment than try4 = \n \n")    
 
-    result.write("------------------------\n")
-    result.write("PARAMETERS\n \n")
-    result.write(f"population number = {population_num}\n")
-    result.write(f"k = {k}\n")
-    result.write(f"max improvement try = {max_improvement_try}\n")
-    result.write(f"iteration of ABC Algorithm = {inner_iteration_of_algorithm}\n")
+    result.write("------------------------ \n")
+    result.write("PARAMETERS \n \n")
+    result.write(f"Number of Employed Bees = {employed_bees_num}\n")
+    result.write(f"Number of Onlooker Bees = {onlooker_bees_num}\n")
+    result.write(f"Max improvement try = {max_improvement_try}\n")
+    result.write(f"Number of ABC algorithm's iterations = {inner_iteration_of_algorithm}\n")
+    result.write(f"Probblity of cross-over = {pc}")
+    result.write(f"Probblity of mutation = {pm}")
 
     print("---------------------------------")
-    # print("RESULT")
     print(f"the best fitness of all: {best_final_fitness} \n")
-    # print(f"the average fitness of all: {fitness_avg} \n")
 
     result.close()
     
