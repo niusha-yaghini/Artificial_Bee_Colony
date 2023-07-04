@@ -10,5 +10,7 @@ def Reading(file_name):
     Weights = []
     for i in range(nK):
         Weights.append([float(x) for x in data.readline().split(" ")])
+    data.readlines(2)
+    real_answer = int(data.readline())    
         
-    return nK, nI, Capacity, Profits, Weights
+    return nK, nI, Capacity, Profits, Weights, real_answer

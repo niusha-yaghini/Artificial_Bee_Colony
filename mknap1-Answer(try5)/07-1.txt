@@ -616,7 +616,7 @@ COMPARE ANSWER
  
 real answer = 16537
 my answer = 15977.0 
-loss = 560
+gap = 560
  
 ------------------------ 
 PARAMETERS 

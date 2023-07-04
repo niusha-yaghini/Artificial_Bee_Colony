@@ -296,8 +296,8 @@ COMPARE ANSWER
  
 real answer = 16537
 my answer = 16069.0
-loss = 468
-try3 loss = 535
+gap = 468
+try3 gap = 535
 betterment than try3 = 67
  
 ------------------------

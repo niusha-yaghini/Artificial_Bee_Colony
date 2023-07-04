@@ -58,7 +58,8 @@ if __name__ == '__main__':
     pc = 0 # the probblity of cross-over
     pm = 4 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
-    percedure_type = "Tournoment"
+    # percedure_type = "Tournoment"
+    percedure_type = "Roulette Wheel"
     cross_over_type = "one_point"
     
     # file name of the datas
@@ -70,7 +71,7 @@ if __name__ == '__main__':
 
     # nK = number of knapstacks
     # nI = number of items
-    nK, nI, Capacity, Profits, Weights = Reading_Data.Reading(data_file_name)
+    nK, nI, Capacity, Profits, Weights, real_answer = Reading_Data.Reading(data_file_name)
     
     # getting result by bees :)
     
@@ -110,10 +111,13 @@ if __name__ == '__main__':
 
     result.write("------------------------ \n")
     result.write("COMPARE ANSWER \n \n")
-    result.write("real answer = \n")
+    result.write(f"real answer = {real_answer}\n")
     result.write(f"my answer = {best_final_fitness} \n")
-    result.write("loss = \n")
-    # result.write("try4 loss = \n")
+    gap = real_answer - best_final_fitness
+    result.write(f"gap = {gap}\n")
+    gap_percent = (gap/real_answer)*100
+    result.write(f"gap percent = {gap_percent}\n \n")
+    # result.write("try4 gap = \n")
     # result.write("betterment than try4 = \n \n")    
 
     result.write("------------------------ \n")

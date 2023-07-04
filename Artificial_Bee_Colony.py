@@ -75,15 +75,15 @@ class ABC_algorithm():
             if(bee.fitness == None):
                 Bees.Bee._calculating_fitness(bee, self.items, self.profits)
         
-        # sum_of_fitnesses = sum([bee.fitness for bee in population])
+        sum_of_fitnesses = sum([bee.fitness for bee in population])
         
         for i in range(self.onlooker_bees_num):
             
-            # # selecting the bee by roulette wheel
-            # bee = self._roulette_wheel(population, sum_of_fitnesses)
+            # selecting the bee by roulette wheel
+            bee = self._roulette_wheel(population, sum_of_fitnesses)
             
-            # sele a bee by tournoment procedure
-            bee = self._tournoment(population)
+            # # sele a bee by tournoment procedure
+            # bee = self._tournoment(population)
             
             # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
             change_flag = self._try_for_improvement(population, bee)
