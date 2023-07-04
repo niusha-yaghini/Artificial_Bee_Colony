@@ -45,25 +45,25 @@ def Bee_Colony_Algorithm():
         
         result.close()
     
-    return best_bees_of_each_inner_iteration, best_bees_of_each_inner_iteration, best_fitnesses_so_far
+    return best_bees_of_each_inner_iteration, best_fitnesses_of_each_inner_iteration, best_fitnesses_so_far
 
 
 if __name__ == '__main__':
     
-    employed_bees_num = 500  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 1000  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    onlooker_bees_num = 50   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 20
-    inner_iteration_of_algorithm = 5
-    pc = 0.7 # the probblity of cross-over
-    pm = 2 # the probblity of mutation (pm/items)
+    onlooker_bees_num = 100   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 50
+    inner_iteration_of_algorithm = 1000
+    pc = 0 # the probblity of cross-over
+    pm = 4 # the probblity of mutation (pm/items)
     
     # file name of the datas
     data_file_name = ".\\mknap1-Question\\07.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try5)\\07.txt"
-    photo_name = "07"
+    result_file_name = ".\\mknap1-Answer(try5)\\07-3.txt"
+    photo_name = "07-3"
 
     # nK = number of knapstacks
     # nI = number of items
@@ -94,7 +94,8 @@ if __name__ == '__main__':
     result.write("------------------------ \n")
     result.write("FINAL RESULT \n \n")
         
-    fitness_avg = np.average(best_fitnesses_of_iterations)
+    # fitness_avg = np.average(best_fitnesses_of_iterations)
+    fitness_avg = sum(best_fitnesses_of_iterations)/len(best_fitnesses_of_iterations)
     result.write(f"the best final Bee => \ndata: {best_final_bee.data}, fitness: {best_final_fitness} \n")
     result.write(f"the average fitness of all: {fitness_avg} \n \n")
 
@@ -118,8 +119,8 @@ if __name__ == '__main__':
     result.write(f"Number of Onlooker Bees = {onlooker_bees_num}\n")
     result.write(f"Max improvement try = {max_improvement_try}\n")
     result.write(f"Number of ABC algorithm's iterations = {inner_iteration_of_algorithm}\n")
-    result.write(f"Probblity of cross-over = {pc}")
-    result.write(f"Probblity of mutation = {pm}")
+    result.write(f"Probblity of cross-over = {pc} \n")
+    result.write(f"Probblity of mutation = {pm} \n")
 
     print("---------------------------------")
     print(f"the best fitness of all: {best_final_fitness} \n")

@@ -70,6 +70,10 @@ class ABC_algorithm():
     def onlooker_bees(self, population):
         # by rolette wheel precedure we do "onlooker_bees_num" times cross_over and mutation,
         # on solution that employed bees have made
+                
+        for bee in population:
+            if(bee.fitness == None):
+                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
         
         sum_of_fitnesses = sum([bee.fitness for bee in population])
         
@@ -84,7 +88,6 @@ class ABC_algorithm():
                 bee.improvement_try = 0
             else: 
                 bee.improvement_try += 1
-                self._scout_check(bee, population)
                                                         
     def scout_bees(self, population):
         delete_bees = []
@@ -152,14 +155,10 @@ class ABC_algorithm():
         # only if the changed answer be better than the previous one and it be valid, it will change
         # we also return that if the muatation has done a change or not
         
-        for i in bee.data:            
+        for i in range(self.items):            
             x = random.random()
             if(x<=self.mutation_probblity):
-                # bee.data[i] = 1 if bee.data[i] == 0 else 0
-                if(bee.data[i] == 0):
-                    bee.data[i] = 1
-                elif(bee.data[i] == 1):
-                    bee.data[i] = 0
+                bee.data[i] = 1 if bee.data[i] == 0 else 0
                 
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
@@ -179,4 +178,4 @@ class ABC_algorithm():
                 best_fitness = bee.fitness
                 best_bee = bee
 
-        return best_bee
+        return best_bee, best_fitness
