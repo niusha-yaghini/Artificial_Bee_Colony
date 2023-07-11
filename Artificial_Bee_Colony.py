@@ -2,61 +2,24 @@ import numpy as np
 import Bees
 import random
 import copy
-
-
-# classes: Station(istgah), Block(khotot), Demand(taghaza)
-
-class Demand():
-    
-    def __init__(self, Index, Origin, Destination, Volume):
-        self.d_index = Index
-        self.d_origin = Origin
-        self.d_destination = Destination
-        self.d_volume = Volume
-        
-        
-class Station():
-    
-    def __init__(self, Index, Block_Capacity, Demand_Capacity):
-        self.s_index = Index
-        self.s_block_capacity = Block_Capacity
-        self.s_demand_capacity = Demand_Capacity
-        
-        
-class Block():
-    
-    def __init__(self, Index, Origin, Destination, Cost_Per_Unit):
-        self.b_index = Index
-        self.b_origin = Origin
-        self.b_destination = Destination
-        self.b_cost = Cost_Per_Unit
-        
-        
-        
-        
-    
-        
-    
-
-
+import Structure
 
 
 class ABC_algorithm():
     # artificial bee colony algorithm 
 
-    def __init__(self, population_num, nK, nI, Capacity, Profits, Weights, onlooker_bees_num, Max_imporovement_try, pc, pm, k_tournomet_percent):
-        self.employed_bees_num = population_num
-        self.knapsacks = nK
-        self.items = nI
-        self.capacity = Capacity
-        self.profits = Profits
-        self.weights = Weights
+    def __init__(self, Demands, Stations, Blocks, employed_bees_num, onlooker_bees_num, Max_imporovement_try, pc, pm, k_tournomet_percent):
+        self.employed_bees_num = employed_bees_num
+        self.demands = Demands
+        self.stations = Stations
+        self.blocks = Blocks
         self.onlooker_bees_num = onlooker_bees_num
         self.Max_imporovement_try = Max_imporovement_try
-        self.crossover_probbility = pc
-        self.mutation_probblity = pm/self.items
-        self.k_tournoment = int(k_tournomet_percent*self.items)
+        # self.crossover_probbility = pc
+        # self.mutation_probblity = pm/self.items
+        # self.k_tournoment = int(k_tournomet_percent*self.items)
           
+
     def employed_bees(self, population):
         # making initial random answers (equal to amount of employed bees number)
         # do the improvement-try once on each of them
@@ -67,30 +30,24 @@ class ABC_algorithm():
                 bee = self._making_bee()
                 population.append(bee)
             
-        # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-        for bee in population:
-            change_flag = self._try_for_improvement(population, bee)
-            if(change_flag): 
-                bee.improvement_try = 0
-                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
-            else: 
-                bee.improvement_try += 1
+        # # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
+        # for bee in population:
+        #     change_flag = self._try_for_improvement(population, bee)
+        #     if(change_flag): 
+        #         bee.improvement_try = 0
+        #         Bees.Bee._calculating_fitness(bee, self.items, self.profits)
+        #     else: 
+        #         bee.improvement_try += 1
                     
     def _making_bee(self):
-        # making each random solution -> employed bees
+        # each bee is a (amount of demands * amount of blocks) matrix
         
         capacity_flag = True
-        bee = Bees.Bee(self.items)
+        bee = Bees.Bee(self.demands, self.blocks)
         new_bee = copy.deepcopy(bee)
-        while(capacity_flag):
-            x = random.randint(0, self.items-1)
-            if(new_bee.data[x]==0):
-                new_bee.data[x] = 1
-                capacity_flag = self._validality_check(new_bee)
-                if(capacity_flag):
-                    bee.data[x] = 1
-                
-        return bee
+        for d in range(len(self.demands)):
+            
+
                 
     def _validality_check(self, bee):
         # checking validality of the answers that has been made (capacity)
