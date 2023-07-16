@@ -2,7 +2,7 @@ import numpy as np
 import Bees
 import random
 import copy
-import Structure
+from Structure import *
 
 
 class ABC_algorithm():
@@ -11,13 +11,15 @@ class ABC_algorithm():
     def __init__(self, Demands, Stations, Blocks, employed_bees_num, onlooker_bees_num, Max_imporovement_try, pc, pm, k_tournomet_percent):
         self.employed_bees_num = employed_bees_num
         self.demands = Demands
+        self.demands_amount = len(self.demands)
         self.stations = Stations
         self.blocks = Blocks
+        self.blocks_amount = len(self.blocks)
         self.onlooker_bees_num = onlooker_bees_num
         self.Max_imporovement_try = Max_imporovement_try
-        # self.crossover_probbility = pc
-        # self.mutation_probblity = pm/self.items
-        # self.k_tournoment = int(k_tournomet_percent*self.items)
+        self.crossover_probbility = pc
+        self.mutation_probblity = pm/self.items
+        self.k_tournoment = int(k_tournomet_percent*self.items)
           
 
     def employed_bees(self, population):
@@ -30,23 +32,60 @@ class ABC_algorithm():
                 bee = self._making_bee()
                 population.append(bee)
             
-        # # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
-        # for bee in population:
-        #     change_flag = self._try_for_improvement(population, bee)
-        #     if(change_flag): 
-        #         bee.improvement_try = 0
-        #         Bees.Bee._calculating_fitness(bee, self.items, self.profits)
-        #     else: 
-        #         bee.improvement_try += 1
+        # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
+        for bee in population:
+            change_flag = self._try_for_improvement(population, bee)
+            # if(change_flag): 
+            #     bee.improvement_try = 0
+            #     Bees.Bee._calculating_fitness(bee, self.items, self.profits)
+            # else: 
+            #     bee.improvement_try += 1
                     
     def _making_bee(self):
         # each bee is a (amount of demands * amount of blocks) matrix
         
-        capacity_flag = True
         bee = Bees.Bee(self.demands, self.blocks)
-        new_bee = copy.deepcopy(bee)
-        for d in range(len(self.demands)):
+
+        data = []
+
+        for d in range(self.demands_amount):
+            a_demand = self._make_a_demand(d)
+            data.append(a_demand)
             
+        bee.data = data
+        return bee
+            
+                
+    def _make_a_demand(self, d):
+        demand_data = [0 for i in range(self.blocks_amount)]
+        destination_flag = False
+
+        # finding the first cell
+        choosing_options = []
+        for b in range(len(d.acceptable_blocks)):
+            if self.demands[d].origin == d.acceptable_blocks[b].origin:
+                choosing_options.append(b)
+        choosed = random.choice(choosing_options)
+        demand_data[choosed] = 1
+        
+        if(self.demands[d].destination == d.acceptable_blocks[choosed].destination):
+            destination_flag = True
+        
+        while(destination_flag == False):
+            choosing_options = []
+            for b in range(len(d.acceptable_blocks)):
+                if d.acceptable_blocks[choosed].destination == d.acceptable_blocks[b].origin:
+                    choosing_options.append(b)
+            choosed = random.choice(choosing_options)
+            demand_data[choosed] = 1
+            
+            if(self.demands[d].destination == d.acceptable_blocks[choosed].destination):
+                destination_flag = True
+                
+            if(len(choosing_options)==0):
+                print("we are in trouble!!!")  
+        
+        return demand_data              
 
                 
     def _validality_check(self, bee):
@@ -152,53 +191,30 @@ class ABC_algorithm():
         x = random.random()
 
         if(x<=self.crossover_probbility):
-            # choosing a random position for change
-            random_pos = random.randint(2, self.items-1)
-            
-            # choosing a neighbor, and it does not matter if it is the bee itself
+            term_pos = random.randint(2, self.demands_amount-1)
             neighbor_bee = random.choice(population)
-            
-            self.replace_terms(bee, neighbor_bee, random_pos)
+            self.replace_terms(bee, neighbor_bee, term_pos)
         
     def replace_terms(self, bee, neighbor_bee, random_pos):
         # in here we change parts of our choromosome base on choosed term
         
         data = []
-        for i in range(random_pos):
+        for i in range(0, random_pos):
             data.append(bee.data[i])
-        for j in range(random_pos, self.items):
+        for j in range(random_pos, self.demands_amount):
             data.append(neighbor_bee.data[j])
         
         bee.data = data
-                
-    def _cross_over(self, population, bee):
-        # for each answer that employed bees have made, we select a radom neighbor
-        # for each answer we also select a random position, and it replaced with its neighbors pos
-        # if the changed answer be better than the previous one and it be valid, it will change
-        # we also return that if the cross-over has done a change or not
-        
-        x = random.random()
-
-        if(x<=self.crossover_probbility):
-            # choosing a random position for change
-            random_pos = random.randint(0, self.items-1)
-            
-            # choosing a neighbor, and it does not matter if it is the bee itself
-            random_neighbor = random.choice(population)
-        
-            # checking that if the two position of bees are different or not (if they were different we do the replacement)
-            if(bee.data[random_pos] != random_neighbor.data[random_pos]):
-                bee.data[random_pos] = random_neighbor.data[random_pos]
-                                            
+                                                            
     def _mutation(self, bee):
         # for each answer that employed bees have made, we select a random position and we change it with 0 or 1 (randomly)
         # only if the changed answer be better than the previous one and it be valid, it will change
         # we also return that if the muatation has done a change or not
         
-        for i in range(self.items):            
+        for i in range(self.demands_amount):            
             x = random.random()
             if(x<=self.mutation_probblity):
-                bee.data[i] = 1 if bee.data[i] == 0 else 0
+                bee.data[i]
                 
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
