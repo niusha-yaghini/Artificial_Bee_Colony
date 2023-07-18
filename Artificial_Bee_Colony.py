@@ -13,12 +13,13 @@ class ABC_algorithm():
         self.demands = Demands
         self.demands_amount = len(self.demands)
         self.stations = Stations
+        self.stations_amount = len(self.stations)
         self.blocks = Blocks
         self.blocks_amount = len(self.blocks)
         self.onlooker_bees_num = onlooker_bees_num
         self.Max_imporovement_try = Max_imporovement_try
         self.crossover_probbility = pc
-        self.mutation_probblity = pm/self.items
+        self.mutation_probblity = pm/self.demands_amount
         self.k_tournoment = int(k_tournomet_percent*self.items)
           
 
@@ -89,18 +90,27 @@ class ABC_algorithm():
 
                 
     def _validality_check(self, bee):
-        # checking validality of the answers that has been made (capacity)
         
-        for j in range(self.knapsacks):
-            current_capacity = self.capacity[j]
-            my_capacity = 0
-            for i in range(self.items):
-                if (bee.data[i]==1):
-                    my_capacity += self.weights[j][i]
-            if(my_capacity>current_capacity):
-                return False
-        return True
-                
+        feasiblity_flag = True
+
+        block_limits_check = [0 for i in range(self.stations_amount-1)]
+        vagon_limits_check = [0 for i in range(self.stations_amount-1)]
+
+        for demand_solution in range(self.demands_amount):
+            for b in range(self.blocks_amount):
+                if(feasiblity_flag):
+                    if (demand_solution[b]==1):
+                        o = self.blocks[b].origin
+                        d = self.blocks[b].destination
+                        block_limits_check[o] += 1
+                        vagon_limits_check[d] += self.demands[demand_solution].volume
+                        if(block_limits_check[o]>self.stations[o].block_capacity):
+                            feasiblity_flag = False
+                        if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
+                            feasiblity_flag = False
+                    
+        return feasiblity_flag
+                                    
     def onlooker_bees(self, population):
         # by rolette wheel precedure we do "onlooker_bees_num" times cross_over and mutation,
         # on solution that employed bees have made
@@ -151,7 +161,13 @@ class ABC_algorithm():
         # doing the mutation on selected bee
         self._mutation(new_bee) 
         
-        if(self._validality_check(new_bee) and self._improvement_check(bee, new_bee)):
+        # feasible = true, infeasible = false
+        validality_flag = self._validality_check(new_bee)
+        
+        # having improvement = true, do not have any improvement = false
+        improvement_flag = self._improvement_check(bee, new_bee)
+        
+        if((validality_flag == False) or (validality_flag and improvement_flag)):
             bee.data = new_bee.data
             change_flag = True
 
@@ -214,12 +230,12 @@ class ABC_algorithm():
         for i in range(self.demands_amount):            
             x = random.random()
             if(x<=self.mutation_probblity):
-                bee.data[i]
+                bee.data[i] = self._make_a_demand(self.demands[i])
                 
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
         
-        Bees.Bee._calculating_fitness(current_bee, self.items, self.profits)
+        Bees.Bee._calculating_fitness(current_bee, self.blocks)
         Bees.Bee._calculating_fitness(new_bee, self.items, self.profits)
         return True if new_bee.fitness>current_bee.fitness else False
     

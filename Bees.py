@@ -10,11 +10,9 @@ class Bee:
         self.improvement_try = 0
         self.feasiblity = None
 
-    # def _calculating_fitness(self, items, profits):
-    #     # fitness is amount of capacity that the bee can take (the capacity that the answer is occupying)
+    def _calculating_fitness(self, bee, blocks):
         
-    #     fitness = 0
-    #     for i in range(items):
-    #         if(self.data[i]==1):
-    #             fitness += profits[i]
-    #     self.fitness = fitness
+        for demand_solution in bee.data:
+            for block_choosed in demand_solution:
+                if(block_choosed==1):
+                    

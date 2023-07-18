@@ -13,10 +13,10 @@ class Demand():
 class Station():
     # we have limits in here
     
-    def __init__(self, Index, Block_Capacity, Demand_Capacity):
+    def __init__(self, Index, Block_Capacity, Vagon_Capacity):
         self.index = Index
         self.block_capacity = Block_Capacity
-        self.demand_capacity = Demand_Capacity
+        self.vagon_capacity = Vagon_Capacity
         
         
 class Block():
