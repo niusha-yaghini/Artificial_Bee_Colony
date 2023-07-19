@@ -55,7 +55,7 @@ if __name__ == '__main__':
     onlooker_bees_num = 2   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
     max_improvement_try = 2
     inner_iteration_of_algorithm = 1
-    pc = 0.7 # the probblity of cross-over
+    pc = 1 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
     percedure_type = "Tournoment"

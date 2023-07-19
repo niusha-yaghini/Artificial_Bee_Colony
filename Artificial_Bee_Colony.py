@@ -50,7 +50,7 @@ class ABC_algorithm():
         data = []
         for demand in self.demands:
             demand_answer = self._make_demand_answer(demand)
-            data.append(demand_answer)
+            data.extend(demand_answer)
             
         bee.data = data
         return bee
@@ -206,7 +206,7 @@ class ABC_algorithm():
         x = random.random()
 
         if(x<=self.crossover_probbility):
-            term_pos = random.randint(2, self.demands_amount-1)
+            term_pos = random.randint(1, self.demands_amount-1)
             neighbor_bee = random.choice(population)
             self.replace_terms(bee, neighbor_bee, term_pos)
         

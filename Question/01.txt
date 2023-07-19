@@ -1,6 +1,7 @@
-Demands: 1
+Demands: 2
 Index, Origin, Destination, Volume, Acceptable_Blocks
 0, 1, 2, 10, [0 1 2]
+1, 1, 3, 10, [1]
 
 Stations: 3
 Index, Block_Capacity, Vagon_Capacity
