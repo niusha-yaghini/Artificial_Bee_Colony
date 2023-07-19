@@ -21,7 +21,7 @@ def Bee_Colony_Algorithm():
         currentTime = datetime.now().strftime("%H:%M:%S")
         print(f"iteration number {i}: {currentTime}")
  
-        ABC = Artificial_Bee_Colony.ABC_algorithm(employed_bees_num, nK, nI, Capacity, Profits, Weights, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent)
+        ABC = Artificial_Bee_Colony.ABC_algorithm(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, employed_bees_num, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent)
         ABC.employed_bees(population)
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
@@ -58,22 +58,20 @@ if __name__ == '__main__':
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
-    # percedure_type = "Tournoment"
-    percedure_type = "Roulette Wheel"
+    percedure_type = "Tournoment"
+    # percedure_type = "Roulette Wheel"
     cross_over_type = "one_point"
     
     # file name of the datas
-    data_file_name = ".\\mknap1-Question\\07.txt"
+    data_file_name = ".\\Question\\01.txt"
     
     # file name for save results
-    result_file_name = ".\\mknap1-Answer(try6)\\07-4.txt"
-    photo_name = "07-4"
+    result_file_name = ".\\Answer\\01.txt"
+    photo_name = "01"
 
-    # nK = number of knapstacks
-    # nI = number of items
-    nK, nI, Capacity, Profits, Weights, real_answer = Reading_Data.Reading(data_file_name)
+    # getting the datas of demands, stations and blocks
+    demands_amount, demands, stations_amount, stations, blocks_amount, blocks = Reading_Data.Reading(data_file_name)
     
-    # getting result by bees :)
     
     result = open(f'{result_file_name}', 'a')
     result.write(f"Artificial Bee Colony Algorithm \n \n")        

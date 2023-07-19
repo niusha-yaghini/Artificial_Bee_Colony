@@ -7,20 +7,20 @@ from Structure import *
 
 class ABC_algorithm():
     # artificial bee colony algorithm 
-
-    def __init__(self, Demands, Stations, Blocks, employed_bees_num, onlooker_bees_num, Max_imporovement_try, pc, pm, k_tournomet_percent):
+    
+    def __init__(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, employed_bees_num, onlooker_bees_num, Max_improvement_try, pc, pm, k_tournomet_percent):
         self.employed_bees_num = employed_bees_num
         self.demands = Demands
-        self.demands_amount = len(self.demands)
+        self.demands_amount = Demands_amount
         self.stations = Stations
-        self.stations_amount = len(self.stations)
+        self.stations_amount = Stations_amount
         self.blocks = Blocks
-        self.blocks_amount = len(self.blocks)
+        self.blocks_amount = Blocks_amount
         self.onlooker_bees_num = onlooker_bees_num
-        self.Max_imporovement_try = Max_imporovement_try
+        self.max_improvement_try = Max_improvement_try
         self.crossover_probbility = pc
         self.mutation_probblity = pm/self.demands_amount
-        self.k_tournoment = int(k_tournomet_percent*self.items)
+        # self.k_tournoment = int(k_tournomet_percent*self.items)
           
 
     def employed_bees(self, population):
@@ -36,11 +36,11 @@ class ABC_algorithm():
         # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
         for bee in population:
             change_flag = self._try_for_improvement(population, bee)
-            # if(change_flag): 
-            #     bee.improvement_try = 0
-            #     Bees.Bee._calculating_fitness(bee, self.items, self.profits)
-            # else: 
-            #     bee.improvement_try += 1
+            if(change_flag): 
+                bee.improvement_try = 0
+                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
+            else: 
+                bee.improvement_try += 1
                     
     def _making_bee(self):
         # each bee is a (amount of demands * amount of blocks) matrix
@@ -141,7 +141,7 @@ class ABC_algorithm():
         delete_bees = []
         new_bees = []
         for bee in population:
-            if(bee.improvement_try>=self.Max_imporovement_try):
+            if(bee.improvement_try>=self.max_improvement_try):
                 delete_bees.append(bee)
                 new_bees.append(self._making_bee())
         for i in range(len(delete_bees)):

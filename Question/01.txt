@@ -1,17 +1,14 @@
-Demands:
+Demands: 1
+Index, Origin, Destination, Volume, Acceptable_Blocks
+1, 1, 2, 10, [1 2]
 
-Index, Origin, Destination, Volume
-1, 1, 2, 10
-Acceptable_Blocks:
-1
-
-Stations:
+Stations: 3
 Index, Block_Capacity, Vagon_Capacity
 1, 5, 15
 2, 5, 15
 3, 5, 5
 
-Blocks:
+Blocks: 3
 Index, Origin, Destination, Cost_Per_Unit
 1, 1, 2, 3
 2, 1, 3, 3

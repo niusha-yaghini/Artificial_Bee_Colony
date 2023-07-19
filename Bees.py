@@ -15,4 +15,4 @@ class Bee:
         for demand_solution in bee.data:
             for block_choosed in demand_solution:
                 if(block_choosed==1):
-                    
+                    print("1")
