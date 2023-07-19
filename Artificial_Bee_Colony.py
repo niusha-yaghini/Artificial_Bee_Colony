@@ -48,45 +48,44 @@ class ABC_algorithm():
         bee = Bees.Bee(self.demands, self.blocks)
 
         data = []
-
-        for d in range(self.demands_amount):
-            a_demand = self._make_a_demand(d)
-            data.append(a_demand)
+        for demand in self.demands:
+            demand_answer = self._make_demand_answer(demand)
+            data.append(demand_answer)
             
         bee.data = data
         return bee
-            
                 
-    def _make_a_demand(self, d):
-        demand_data = [0 for i in range(self.blocks_amount)]
+    def _make_demand_answer(self, demand):
+        data = [0 for i in range(self.blocks_amount)]
         destination_flag = False
 
         # finding the first cell
         choosing_options = []
-        for b in range(len(d.acceptable_blocks)):
-            if self.demands[d].origin == d.acceptable_blocks[b].origin:
-                choosing_options.append(b)
-        choosed = random.choice(choosing_options)
-        demand_data[choosed] = 1
+        for acp_block_indx in demand.acceptable_blocks_index:
+            if demand.origin == self.blocks[acp_block_indx].origin:
+                choosing_options.append(acp_block_indx)
+        choosed_index = random.choice(choosing_options)
+        data[choosed_index] = 1
         
-        if(self.demands[d].destination == d.acceptable_blocks[choosed].destination):
+        if(demand.destination == self.blocks[choosed_index].destination):
             destination_flag = True
         
         while(destination_flag == False):
             choosing_options = []
-            for b in range(len(d.acceptable_blocks)):
-                if d.acceptable_blocks[choosed].destination == d.acceptable_blocks[b].origin:
-                    choosing_options.append(b)
-            choosed = random.choice(choosing_options)
-            demand_data[choosed] = 1
-            
-            if(self.demands[d].destination == d.acceptable_blocks[choosed].destination):
-                destination_flag = True
-                
+            for acp_block_indx in demand.acceptable_blocks_index:
+                if self.blocks[choosed_index].destination == self.blocks[acp_block_indx].origin:
+                    choosing_options.append(acp_block_indx)
+                    
             if(len(choosing_options)==0):
                 print("we are in trouble!!!")  
+     
+            choosed = random.choice(choosing_options)
+            data[choosed] = 1
+            
+            if(demand.destination == self.blocks[choosed].destination):
+                destination_flag = True
         
-        return demand_data              
+        return data              
 
                 
     def _validality_check(self, bee):

@@ -2,12 +2,12 @@
 
 class Demand():
     
-    def __init__(self, Index, Origin, Destination, Volume, Acceptable_Blocks):
+    def __init__(self, Index, Origin, Destination, Volume, Acceptable_Blocks_Index):
         self.index = Index
         self.origin = Origin
         self.destination = Destination
         self.volume = Volume
-        self.acceptable_blocks = Acceptable_Blocks
+        self.acceptable_blocks_index = Acceptable_Blocks_Index
         
         
 class Station():
