@@ -20,8 +20,8 @@ def Bee_Colony_Algorithm():
         # result.write(f"iteration number {i}: \n")
         currentTime = datetime.now().strftime("%H:%M:%S")
         print(f"iteration number {i}: {currentTime}")
- 
-        ABC = Artificial_Bee_Colony.ABC_algorithm(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, employed_bees_num, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent)
+
+        ABC = Artificial_Bee_Colony.ABC_algorithm(demands_amount, demands, stations_amount, stations, blocks_amount, blocks, employed_bees_num, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent)
         ABC.employed_bees(population)
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
@@ -50,11 +50,11 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    employed_bees_num = 1000  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 3  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    onlooker_bees_num = 100   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 50
-    inner_iteration_of_algorithm = 1000
+    onlooker_bees_num = 2   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 2
+    inner_iteration_of_algorithm = 1
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them

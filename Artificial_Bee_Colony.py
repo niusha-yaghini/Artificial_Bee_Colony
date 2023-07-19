@@ -8,18 +8,18 @@ from Structure import *
 class ABC_algorithm():
     # artificial bee colony algorithm 
     
-    def __init__(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, employed_bees_num, onlooker_bees_num, Max_improvement_try, pc, pm, k_tournomet_percent):
-        self.employed_bees_num = employed_bees_num
-        self.demands = Demands
+    def __init__(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, Employed_bees_num, Onlooker_bees_num, Max_improvement_try, Pc, Pm, K_tournomet_percent):
         self.demands_amount = Demands_amount
-        self.stations = Stations
+        self.demands = Demands
         self.stations_amount = Stations_amount
-        self.blocks = Blocks
+        self.stations = Stations
         self.blocks_amount = Blocks_amount
-        self.onlooker_bees_num = onlooker_bees_num
+        self.blocks = Blocks
+        self.employed_bees_num = Employed_bees_num
+        self.onlooker_bees_num = Onlooker_bees_num
         self.max_improvement_try = Max_improvement_try
-        self.crossover_probbility = pc
-        self.mutation_probblity = pm/self.demands_amount
+        self.crossover_probbility = Pc
+        self.mutation_probblity = Pm/self.demands_amount
         # self.k_tournoment = int(k_tournomet_percent*self.items)
           
 
