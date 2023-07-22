@@ -1,80 +1,35 @@
 Artificial Bee Colony Algorithm 
  
-Artificial Bee Colony Algorithm 
+iteration number 0: 
+best bee => data: [[0, 1, 1, 0], [1, 0, 0, 1]], fitness: 40
+best fitness so far: 40
+Execution time of iteration: 0.004276752471923828 seconds
  
-Artificial Bee Colony Algorithm 
+iteration number 1: 
+best bee => data: [[0, 1, 1, 0], [1, 0, 0, 1]], fitness: 40
+best fitness so far: 40
+Execution time of iteration: 0.003972291946411133 seconds
  
-Artificial Bee Colony Algorithm 
+------------------------ 
+FINAL RESULT 
  
-Artificial Bee Colony Algorithm 
+the best final Bee => 
+data: [[0, 1, 1, 0], [1, 0, 0, 1]]
+fitness: 40 
+
+Average fitness of all: 40.0 
  
-Artificial Bee Colony Algorithm 
+Execution time of all: 0.008249044418334961 seconds 
  
-Artificial Bee Colony Algorithm 
+------------------------ 
+PARAMETERS 
  
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
-Artificial Bee Colony Algorithm 
- 
+Number of Employed Bees = 10
+Number of Onlooker Bees = 5
+Max improvement try = 3
+Number of ABC algorithm's iterations = 2
+cross_over type = one_point
+Probblity of cross-over = 0.7
+Probblity of mutation = 2
+K tournoment percent = 0.2
+Precedure Type = Tournoment

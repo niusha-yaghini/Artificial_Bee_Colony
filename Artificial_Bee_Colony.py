@@ -8,7 +8,7 @@ from Structure import *
 class ABC_algorithm():
     # artificial bee colony algorithm 
     
-    def __init__(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, Employed_bees_num, Onlooker_bees_num, Max_improvement_try, Pc, Pm, K_tournomet_percent):
+    def __init__(self, Demands_amount, Demands, Stations_amount, Stations, Blocks_amount, Blocks, Employed_bees_num, Onlooker_bees_num, Max_improvement_try, Pc, Pm, K_Tournomet_Percent, Percedure_Type):
         self.demands_amount = Demands_amount
         self.demands = Demands
         self.stations_amount = Stations_amount
@@ -20,7 +20,8 @@ class ABC_algorithm():
         self.max_improvement_try = Max_improvement_try
         self.crossover_probbility = Pc
         self.mutation_probblity = Pm/self.demands_amount
-        # self.k_tournoment = int(k_tournomet_percent*self.items)
+        self.percedure_type = Percedure_Type
+        self.k_tournoment = int(K_Tournomet_Percent*self.employed_bees_num)
           
 
     def employed_bees(self, population):
@@ -114,17 +115,18 @@ class ABC_algorithm():
                 
         for bee in population:
             if(bee.fitness == None):
-                Bees.Bee._calculating_fitness(bee, self.blocks, self.demands)
+                Bees._calculating_fitness(bee, self.blocks, self.demands)
         
         sum_of_fitnesses = sum([bee.fitness for bee in population])
         
         for i in range(self.onlooker_bees_num):
-            
-            # selecting the bee by roulette wheel
-            bee = self._roulette_wheel(population, sum_of_fitnesses)
-            
-            # # sele a bee by tournoment procedure
-            # bee = self._tournoment(population)
+
+            if(self.percedure_type == "Roulette Wheel"):
+                # selecting the bee by roulette wheel
+                bee = self._roulette_wheel(population, sum_of_fitnesses)
+            elif(self.percedure_type == "Tournoment"):            
+                # sele a bee by tournoment procedure
+                bee = self._tournoment(population)
             
             # we try for improvement one time for each bee, if change happens we add one to improvement-try property of that bee
             change_flag = self._try_for_improvement(population, bee)
@@ -137,7 +139,7 @@ class ABC_algorithm():
         delete_bees = []
         new_bees = []
         for bee in population:
-            if(bee.improvement_try>=self.max_improvement_try):
+            if(bee.improvement_try >= self.max_improvement_try):
                 delete_bees.append(bee)
                 new_bees.append(self._making_bee())
         for i in range(len(delete_bees)):
@@ -184,17 +186,18 @@ class ABC_algorithm():
         return change_flag        
     
     def _tournoment(self, population):
+        
         tournoment_list = []
         for i in range(self.k_tournoment):
             tournoment_list.append(random.choice(population))
             
-        maxF = 0
-        max_B = None
-        for bee in population:
-            if(bee.fitness>maxF):
-                maxF = bee.fitness
-                max_B = bee
-        return max_B
+        max_Fitness = 0
+        max_Bee = None
+        for bee in tournoment_list:
+            if(bee.fitness > max_Fitness):
+                max_Fitness = bee.fitness
+                max_Bee = bee
+        return max_Bee
     
     def _roulette_wheel(self, population, sum_of_fitnesses):
         
@@ -255,7 +258,7 @@ class ABC_algorithm():
         best_fitness = 0
         best_bee = None
         for bee in population:
-            Bees.Bee._calculating_fitness(bee, self.blocks, self.demands)
+            Bees._calculating_fitness(bee, self.blocks, self.demands)
             if(bee.fitness>best_fitness):
                 best_fitness = bee.fitness
                 best_bee = bee

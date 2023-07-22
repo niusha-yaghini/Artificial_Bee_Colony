@@ -15,13 +15,13 @@ def Bee_Colony_Algorithm():
     best_fitnesses_so_far = []
     for i in range(inner_iteration_of_algorithm):  
 
-        # iteration_st = time.time()  # start time of iteration
+        iteration_st = time.time()  # start time of iteration
         result = open(f'{result_file_name}', 'a')    
-        # result.write(f"iteration number {i}: \n")
+        result.write(f"iteration number {i}: \n")
         currentTime = datetime.now().strftime("%H:%M:%S")
         print(f"iteration number {i}: {currentTime}")
 
-        ABC = Artificial_Bee_Colony.ABC_algorithm(demands_amount, demands, stations_amount, stations, blocks_amount, blocks, employed_bees_num, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent)
+        ABC = Artificial_Bee_Colony.ABC_algorithm(demands_amount, demands, stations_amount, stations, blocks_amount, blocks, employed_bees_num, onlooker_bees_num, max_improvement_try, pc, pm, k_tournomet_percent, percedure_type)
         ABC.employed_bees(population)
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
@@ -31,17 +31,17 @@ def Bee_Colony_Algorithm():
         best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
         best_fitnesses_so_far.append(best_fitness_so_far)
 
-        # result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
-        # result.write(f"best fitness so far: {best_fitness_so_far}\n")
+        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
+        result.write(f"best fitness so far: {best_fitness_so_far}\n")
 
         print(f"best fitness of iteration = {best_fitness_of_iteration}")
         print(f"best fitness so far: {best_fitness_so_far}")
 
         ABC.scout_bees(population)
         
-        # iteration_et = time.time()  # end time of iteration
-        # iteration_elapsed_time = iteration_et - iteration_st
-        # result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
+        iteration_et = time.time()  # end time of iteration
+        iteration_elapsed_time = iteration_et - iteration_st
+        result.write(f"Execution time of iteration: {iteration_elapsed_time} seconds\n \n")
         
         result.close()
     
@@ -50,14 +50,14 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    employed_bees_num = 5  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 10  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    onlooker_bees_num = 2   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 2
-    inner_iteration_of_algorithm = 1
-    pc = 1 # the probblity of cross-over
+    onlooker_bees_num = 5   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 3
+    inner_iteration_of_algorithm = 2
+    pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
-    k_tournomet_percent = 0.1 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
+    k_tournomet_percent = 0.2 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
     percedure_type = "Tournoment"
     # percedure_type = "Roulette Wheel"
     cross_over_type = "one_point"
@@ -93,13 +93,13 @@ if __name__ == '__main__':
             
     # writing the result
     result = open(f'{result_file_name}', 'a')
-    # result.write("------------------------ \n")
+    result.write("------------------------ \n")
     result.write("FINAL RESULT \n \n")
         
     # fitness_avg = np.average(best_fitnesses_of_iterations)
     fitness_avg = sum(best_fitnesses_of_iterations)/len(best_fitnesses_of_iterations)
-    result.write(f"the best final Bee => \ndata: {best_final_bee.data}, fitness: {best_final_fitness} \n")
-    result.write(f"the average fitness of all: {fitness_avg} \n \n")
+    result.write(f"the best final Bee => \ndata: {best_final_bee.data}\nfitness: {best_final_fitness} \n \n")
+    result.write(f"Average fitness of all: {fitness_avg} \n \n")
 
     # end time of all
     et = time.time()
@@ -107,14 +107,14 @@ if __name__ == '__main__':
     elapsed_time = et - st
     result.write(f'Execution time of all: {elapsed_time} seconds \n \n')
 
-    result.write("------------------------ \n")
-    result.write("COMPARE ANSWER \n \n")
-    result.write(f"real answer = {real_answer}\n")
-    result.write(f"my answer = {best_final_fitness} \n")
-    gap = real_answer - best_final_fitness
-    result.write(f"gap = {gap}\n")
-    gap_percent = (gap/real_answer)*100
-    result.write(f"gap percent = {gap_percent}\n \n")
+    # result.write("------------------------ \n")
+    # result.write("COMPARE ANSWER \n \n")
+    # result.write(f"real answer = {real_answer}\n")
+    # result.write(f"my answer = {best_final_fitness} \n")
+    # gap = real_answer - best_final_fitness
+    # result.write(f"gap = {gap}\n")
+    # gap_percent = (gap/real_answer)*100
+    # result.write(f"gap percent = {gap_percent}\n \n")
     # result.write("try4 gap = \n")
     # result.write("betterment than try4 = \n \n")    
 
