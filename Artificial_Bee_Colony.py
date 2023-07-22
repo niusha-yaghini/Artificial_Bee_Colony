@@ -50,7 +50,7 @@ class ABC_algorithm():
         data = []
         for demand in self.demands:
             demand_answer = self._make_demand_answer(demand)
-            data.extend(demand_answer)
+            data.append(demand_answer)
             
         bee.data = data
         return bee
@@ -95,7 +95,7 @@ class ABC_algorithm():
         block_limits_check = [0 for i in range(self.stations_amount-1)]
         vagon_limits_check = [0 for i in range(self.stations_amount-1)]
 
-        for demand_solution in range(self.demands_amount):
+        for demand_solution in bee.data:
             for b in range(self.blocks_amount):
                 if(feasiblity_flag):
                     if (demand_solution[b]==1):
@@ -229,7 +229,7 @@ class ABC_algorithm():
         for i in range(self.demands_amount):            
             x = random.random()
             if(x<=self.mutation_probblity):
-                bee.data[i] = self._make_a_demand(self.demands[i])
+                bee.data[i] = self._make_demand_answer(self.demands[i])
                 
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not

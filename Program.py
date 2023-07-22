@@ -50,7 +50,7 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    employed_bees_num = 3  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 5  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
     onlooker_bees_num = 2   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
     max_improvement_try = 2
