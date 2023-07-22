@@ -38,7 +38,6 @@ class ABC_algorithm():
             change_flag = self._try_for_improvement(population, bee)
             if(change_flag): 
                 bee.improvement_try = 0
-                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
             else: 
                 bee.improvement_try += 1
                     
@@ -87,18 +86,17 @@ class ABC_algorithm():
         
         return data              
 
-                
     def _validality_check(self, bee):
         
         feasiblity_flag = True
 
-        block_limits_check = [0 for i in range(self.stations_amount-1)]
-        vagon_limits_check = [0 for i in range(self.stations_amount-1)]
+        block_limits_check = [0 for i in range(self.stations_amount)]
+        vagon_limits_check = [0 for i in range(self.stations_amount)]
 
-        for demand_solution in bee.data:
+        for demand_solution in range(len(bee.data)):
             for b in range(self.blocks_amount):
                 if(feasiblity_flag):
-                    if (demand_solution[b]==1):
+                    if (bee.data[demand_solution][b]==1):
                         o = self.blocks[b].origin
                         d = self.blocks[b].destination
                         block_limits_check[o] += 1
@@ -107,7 +105,7 @@ class ABC_algorithm():
                             feasiblity_flag = False
                         if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
                             feasiblity_flag = False
-                    
+        bee.feasiblity = feasiblity_flag
         return feasiblity_flag
                                     
     def onlooker_bees(self, population):
@@ -116,7 +114,7 @@ class ABC_algorithm():
                 
         for bee in population:
             if(bee.fitness == None):
-                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
+                Bees.Bee._calculating_fitness(bee, self.blocks, self.demands)
         
         sum_of_fitnesses = sum([bee.fitness for bee in population])
         
@@ -132,7 +130,6 @@ class ABC_algorithm():
             change_flag = self._try_for_improvement(population, bee)
             if(change_flag): 
                 bee.improvement_try = 0
-                Bees.Bee._calculating_fitness(bee, self.items, self.profits)
             else: 
                 bee.improvement_try += 1
                                                         
@@ -159,17 +156,31 @@ class ABC_algorithm():
         
         # doing the mutation on selected bee
         self._mutation(new_bee) 
-        
-        # feasible = true, infeasible = false
-        validality_flag = self._validality_check(new_bee)
-        
-        # having improvement = true, do not have any improvement = false
-        improvement_flag = self._improvement_check(bee, new_bee)
-        
-        if((validality_flag == False) or (validality_flag and improvement_flag)):
-            bee.data = new_bee.data
-            change_flag = True
 
+        validality_flag_current_bee = self._validality_check(bee)
+        validality_flag_new_bee = self._validality_check(new_bee)
+        
+        if(validality_flag_current_bee == False):
+            # we need to set the new feasiblity and the new fitness
+            
+            bee.data = new_bee.data
+            bee.feasiblity = new_bee.feasiblity
+            Bees._calculating_fitness(bee, self.blocks, self.demands)
+
+            change_flag = True
+            
+        elif(validality_flag_current_bee == True and validality_flag_new_bee == True):
+            # validality_flag_current_bee is true here
+            
+            # since the feasiblities are both true we do not need to set it again
+            # we need to set the new fitness
+            improvement_flag = self._improvement_check(bee, new_bee)
+            
+            if(improvement_flag):
+                bee.data = new_bee.data
+                bee.fitness = new_bee.fitness
+                change_flag = True
+            
         return change_flag        
     
     def _tournoment(self, population):
@@ -234,8 +245,8 @@ class ABC_algorithm():
     def _improvement_check(self, current_bee, new_bee):
         # checking that the new bee (changed bee by cross_over or mutation) has imporoved or not
         
-        Bees.Bee._calculating_fitness(current_bee, self.blocks)
-        Bees.Bee._calculating_fitness(new_bee, self.items, self.profits)
+        Bees._calculating_fitness(current_bee, self.blocks, self.demands)
+        Bees._calculating_fitness(new_bee, self.blocks, self.demands)
         return True if new_bee.fitness>current_bee.fitness else False
     
     def finding_best_bee(self, population):
@@ -244,7 +255,7 @@ class ABC_algorithm():
         best_fitness = 0
         best_bee = None
         for bee in population:
-            Bees.Bee._calculating_fitness(bee, self.items, self.profits)
+            Bees.Bee._calculating_fitness(bee, self.blocks, self.demands)
             if(bee.fitness>best_fitness):
                 best_fitness = bee.fitness
                 best_bee = bee

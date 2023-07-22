@@ -10,9 +10,13 @@ class Bee:
         self.improvement_try = 0
         self.feasiblity = None
 
-    def _calculating_fitness(self, bee, blocks):
+def _calculating_fitness(bee, blocks, demands):
+    # fitness = the sum of all volumes of each demand_solution in our bee
+    
+    fitness = 0
+    for demand_solution in range(len(bee.data)):
+        for b in range(len(blocks)):
+            if(bee.data[demand_solution][b]==1):
+                fitness += demands[demand_solution].volume
+    bee.fitness = fitness            
         
-        for demand_solution in bee.data:
-            for block_choosed in demand_solution:
-                if(block_choosed==1):
-                    print("1")
