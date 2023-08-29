@@ -61,9 +61,10 @@ class ABC_algorithm():
 
         # finding the first cell
         choosing_options = []
-        for acp_block_indx in demand.acceptable_blocks_index:
-            if demand.origin == self.blocks[acp_block_indx].origin:
-                choosing_options.append(acp_block_indx)
+        for b_indx in range(self.blocks_amount):
+            if ((demand.origin == self.blocks[b_indx].origin) and 
+                    (demand.destination >= self.blocks[b_indx].destination)):
+                choosing_options.append(b_indx)
         choosed_index = random.choice(choosing_options)
         data[choosed_index] = 1
         
@@ -72,12 +73,13 @@ class ABC_algorithm():
         
         while(destination_flag == False):
             choosing_options = []
-            for acp_block_indx in demand.acceptable_blocks_index:
-                if self.blocks[choosed_index].destination == self.blocks[acp_block_indx].origin:
-                    choosing_options.append(acp_block_indx)
+            for b_indx in range(self.blocks_amount):
+                if ((self.blocks[choosed_index].destination == self.blocks[b_indx].origin) and 
+                        (demand.destination >= self.blocks[b_indx].destination)):
+                    choosing_options.append(b_indx)
                     
             if(len(choosing_options)==0):
-                print("we are in trouble!!!")  
+                print("we are in trouble!!! in (make_demand_answer) ")  
      
             choosed = random.choice(choosing_options)
             data[choosed] = 1

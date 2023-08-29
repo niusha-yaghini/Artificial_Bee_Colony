@@ -2,13 +2,11 @@
 
 class Demand():
     
-    def __init__(self, Index, Origin, Destination, Volume, Acceptable_Blocks_Index):
+    def __init__(self, Index, Origin, Destination, Volume):
         self.index = Index
         self.origin = Origin
         self.destination = Destination
-        self.volume = Volume
-        self.acceptable_blocks_index = Acceptable_Blocks_Index
-        
+        self.volume = Volume        
         
 class Station():
     # we have limits in here
@@ -17,7 +15,6 @@ class Station():
         self.index = Index
         self.block_capacity = Block_Capacity
         self.vagon_capacity = Vagon_Capacity
-        
         
 class Block():
     
