@@ -54,7 +54,7 @@ if __name__ == '__main__':
                          # this must be an even number 
     onlooker_bees_num = 5   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
     max_improvement_try = 3
-    inner_iteration_of_algorithm = 2
+    inner_iteration_of_algorithm = 5
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.2 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them
@@ -66,8 +66,8 @@ if __name__ == '__main__':
     data_file_name = ".\\Question\\01.txt"
     
     # file name for save results
-    result_file_name = ".\\Answer\\01.txt"
-    photo_name = "01"
+    result_file_name = ".\\Answer\\02.txt"
+    photo_name = "02"
 
     # getting the datas of demands, stations and blocks
     demands_amount, demands, stations_amount, stations, blocks_amount, blocks = Reading_Data.Reading(data_file_name)

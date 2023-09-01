@@ -18,5 +18,5 @@ def _calculating_fitness(bee, blocks, demands):
         for b in range(len(blocks)):
             if(bee.data[demand_solution][b]==1):
                 fitness += demands[demand_solution].volume * blocks[b].cost
-    bee.fitness = fitness            
+    bee.fitness = (fitness)*-1            
         

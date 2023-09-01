@@ -79,12 +79,12 @@ class ABC_algorithm():
                     choosing_options.append(b_indx)
                     
             if(len(choosing_options)==0):
-                print("we are in trouble!!! in (make_demand_answer) ")  
+                print("we are in trouble!!! in (make_demand_answer)")  
      
-            choosed = random.choice(choosing_options)
-            data[choosed] = 1
+            choosed_index = random.choice(choosing_options)
+            data[choosed_index] = 1
             
-            if(demand.destination == self.blocks[choosed].destination):
+            if(demand.destination == self.blocks[choosed_index].destination):
                 destination_flag = True
         
         return data              
@@ -95,6 +95,8 @@ class ABC_algorithm():
 
         block_limits_check = [0 for i in range(self.stations_amount)]
         vagon_limits_check = [0 for i in range(self.stations_amount)]
+        
+        checked_blocks = [0 for i in range(self.blocks_amount)]
 
         for demand_solution in range(len(bee.data)):
             for b in range(self.blocks_amount):
@@ -102,7 +104,9 @@ class ABC_algorithm():
                     if (bee.data[demand_solution][b]==1):
                         o = self.blocks[b].origin
                         d = self.blocks[b].destination
-                        block_limits_check[o] += 1
+                        if(checked_blocks[b]!=1):
+                            checked_blocks[b] = 1
+                            block_limits_check[o] += 1
                         vagon_limits_check[d] += self.demands[demand_solution].volume
                         if(block_limits_check[o]>self.stations[o].block_capacity):
                             feasiblity_flag = False
@@ -183,6 +187,8 @@ class ABC_algorithm():
             if(improvement_flag):
                 bee.data = new_bee.data
                 bee.fitness = new_bee.fitness
+                Bees._calculating_fitness(bee, self.blocks, self.demands)
+                
                 change_flag = True
             
         return change_flag        
@@ -193,7 +199,7 @@ class ABC_algorithm():
         for i in range(self.k_tournoment):
             tournoment_list.append(random.choice(population))
             
-        max_Fitness = 0
+        max_Fitness = -100000
         max_Bee = None
         for bee in tournoment_list:
             if(bee.fitness > max_Fitness):
@@ -255,13 +261,15 @@ class ABC_algorithm():
         return True if new_bee.fitness>current_bee.fitness else False
     
     def finding_best_bee(self, population):
-        # finding the best solution
+        # finding the best solution, with best fitness
+        # the answer must be feasible
         
-        best_fitness = 0
+        best_fitness = -100000
         best_bee = None
         for bee in population:
+            # if(bee.fitness == None):
             Bees._calculating_fitness(bee, self.blocks, self.demands)
-            if(bee.fitness>best_fitness):
+            if((bee.feasiblity==True) and (bee.fitness>best_fitness)):
                 best_fitness = bee.fitness
                 best_bee = bee
 
