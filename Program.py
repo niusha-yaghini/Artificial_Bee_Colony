@@ -63,7 +63,7 @@ if __name__ == '__main__':
     cross_over_type = "one_point"
     
     # file name of the datas
-    data_file_name = ".\\Question\\01.txt"
+    data_file_name = ".\\Question\\02.txt"
     
     # file name for save results
     result_file_name = ".\\Answer\\02.txt"

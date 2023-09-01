@@ -13,7 +13,7 @@ def Reading(file_name):
     for d in range(demands_amount):
         each_demand = []
         for i in data.readline().split(','):
-            each_demand.append(int(i))
+            each_demand.append(int(i.strip()))
         demands.append(Demand(each_demand[0], each_demand[1], each_demand[2], each_demand[3]))
         
     data.readline()
