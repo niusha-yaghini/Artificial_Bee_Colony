@@ -26,16 +26,35 @@ def Bee_Colony_Algorithm():
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
         
-        best_bees_of_each_inner_iteration.append(copy.deepcopy(best_bee_of_iteration))
-        best_fitnesses_of_each_inner_iteration.append(copy.deepcopy(best_fitness_of_iteration))
-        best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
-        best_fitnesses_so_far.append(best_fitness_so_far)
+        if(best_bee_of_iteration == None):
+            # best_bees_of_each_inner_iteration.append(copy.deepcopy(best_bee_of_iteration))
+            # best_fitnesses_of_each_inner_iteration.append(copy.deepcopy(best_fitness_of_iteration))
 
-        result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
-        result.write(f"best fitness so far: {best_fitness_so_far}\n")
+            if(len(best_fitnesses_of_each_inner_iteration) == 0):
+                best_fitness_so_far = None    
+            else:
+                best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
 
-        print(f"best fitness of iteration = {best_fitness_of_iteration}")
-        print(f"best fitness so far: {best_fitness_so_far}")
+            # best_fitnesses_so_far.append(best_fitness_so_far)
+
+            result.write(f"best bee => data: None, fitness: None\n")  
+            result.write(f"best fitness so far: {best_fitness_so_far}\n")
+
+            # print(f"best fitness of iteration = {best_fitness_of_iteration}")
+            # print(f"best fitness so far: {best_fitness_so_far}")
+        
+        else:
+            
+            best_bees_of_each_inner_iteration.append(copy.deepcopy(best_bee_of_iteration))
+            best_fitnesses_of_each_inner_iteration.append(copy.deepcopy(best_fitness_of_iteration))
+            best_fitness_so_far = max(best_fitnesses_of_each_inner_iteration)
+            best_fitnesses_so_far.append(best_fitness_so_far)
+
+            result.write(f"best bee => data: {best_bee_of_iteration.data}, fitness: {best_fitness_of_iteration}\n")  
+            result.write(f"best fitness so far: {best_fitness_so_far}\n")
+
+            print(f"best fitness of iteration = {best_fitness_of_iteration}")
+            print(f"best fitness so far: {best_fitness_so_far}")
 
         ABC.scout_bees(population)
         
@@ -50,11 +69,11 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    employed_bees_num = 10  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 200  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    onlooker_bees_num = 5   # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 3
-    inner_iteration_of_algorithm = 5
+    onlooker_bees_num = 50  # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 20
+    inner_iteration_of_algorithm = 100
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)
     k_tournomet_percent = 0.2 # in amount of "k_tournomet/items", tournoment will choose, and return the best of them

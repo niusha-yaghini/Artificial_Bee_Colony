@@ -110,8 +110,8 @@ class ABC_algorithm():
                         vagon_limits_check[d] += self.demands[demand_solution].volume
                         if(block_limits_check[o]>self.stations[o].block_capacity):
                             feasiblity_flag = False
-                        if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
-                            feasiblity_flag = False
+                        # if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
+                        #     feasiblity_flag = False
         bee.feasiblity = feasiblity_flag
         return feasiblity_flag
                                     
@@ -264,7 +264,7 @@ class ABC_algorithm():
         # finding the best solution, with best fitness
         # the answer must be feasible
         
-        best_fitness = -100000
+        best_fitness = -1000000
         best_bee = None
         for bee in population:
             # if(bee.fitness == None):
@@ -274,3 +274,14 @@ class ABC_algorithm():
                 best_bee = bee
 
         return best_bee, best_fitness
+    
+    def validality_amount(self, population):
+        invalid_amount = 0
+        for i in population:
+            if (i.feasiblity == False):
+                invalid_amount += 1
+        population_amount = len(population)
+        valid_amount = population_amount - invalid_amount
+        print(f"amount of invalid data: {invalid_amount}")        
+        print(f"amount of valid data: {valid_amount}")        
+        print(f"total population: {population_amount}")        
