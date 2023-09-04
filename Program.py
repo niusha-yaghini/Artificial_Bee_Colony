@@ -25,6 +25,7 @@ def Bee_Colony_Algorithm():
         ABC.employed_bees(population)
         ABC.onlooker_bees(population)
         best_bee_of_iteration, best_fitness_of_iteration = ABC.finding_best_bee(population)
+        # ABC.validality_amount(population)
         
         if(best_bee_of_iteration == None):
             # best_bees_of_each_inner_iteration.append(copy.deepcopy(best_bee_of_iteration))
@@ -69,10 +70,10 @@ def Bee_Colony_Algorithm():
 
 if __name__ == '__main__':
     
-    employed_bees_num = 200  # number of total bees => npop/2 = amount of first population
+    employed_bees_num = 100  # number of total bees => npop/2 = amount of first population
                          # this must be an even number 
-    onlooker_bees_num = 50  # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
-    max_improvement_try = 20
+    onlooker_bees_num = 25  # number of iterations in roulette wheel, that select a bee and pass it to improvement-try
+    max_improvement_try = 10
     inner_iteration_of_algorithm = 100
     pc = 0.7 # the probblity of cross-over
     pm = 2 # the probblity of mutation (pm/items)

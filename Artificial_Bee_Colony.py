@@ -110,8 +110,8 @@ class ABC_algorithm():
                         vagon_limits_check[d] += self.demands[demand_solution].volume
                         if(block_limits_check[o]>self.stations[o].block_capacity):
                             feasiblity_flag = False
-                        # if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
-                        #     feasiblity_flag = False
+                        if(vagon_limits_check[d]>self.stations[d].vagon_capacity):
+                            feasiblity_flag = False
         bee.feasiblity = feasiblity_flag
         return feasiblity_flag
                                     
